@@ -315,7 +315,6 @@ public class SocketHandler {
         if (status.equals("success")) {
             int userCount = Integer.parseInt(splitted[2]);
 
-            // https://niithanoi.edu.vn/huong-dan-thao-tac-voi-jtable-lap-trinh-java-swing.html
             Vector vheader = new Vector();
             vheader.add("User");
 
