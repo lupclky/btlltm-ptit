@@ -26,11 +26,9 @@ public class GameView extends javax.swing.JFrame {
     String a1 = "";
     String a2 = "";
     String a3 = "";
-    String a4 = "";
     String b1 = "";
     String b2 = "";
     String b3 = "";
-    String b4 = "";
     
     boolean answer = false;
     /**
@@ -80,45 +78,36 @@ public class GameView extends javax.swing.JFrame {
         infoPLayer.setText("Play game with: " + username);
     }
     
-    public void setQuestion1 (String a, String b, String answerA, String answerB, String answerC, String answerD) {
+    public void setQuestion1 (String a, String b, String answerA, String answerB, String answerC) {
         setA1(a);
         setB1(b);
-        lbQuestion1.setText("1. " + a + " + " + b + " = ?");
+        lbQuestion1.setText("Round 1");
         answer1a.setText(answerA);
         answer1b.setText(answerB);
         answer1c.setText(answerC);
-        answer1d.setText(answerD);
     }
     
-    public void setQuestion2 (String a, String b, String answerA, String answerB, String answerC, String answerD) {
+    public void setQuestion2 (String a, String b, String answerA, String answerB, String answerC) {
         setA2(a);
         setB2(b);
-        lbQuestion2.setText("2. " + a + " + " + b + " = ?");
+        lbQuestion2.setText("Round 2");
+        
         answer2a.setText(answerA);
         answer2b.setText(answerB);
         answer2c.setText(answerC);
-        answer2d.setText(answerD);
+        
     }
     
-    public void setQuestion3 (String a, String b, String answerA, String answerB, String answerC, String answerD) {
+    public void setQuestion3 (String a, String b, String answerA, String answerB, String answerC) {
         setA3(a);
         setB3(b);
-        lbQuestion3.setText("3. " + a + " + " + b + " = ?");
+        lbQuestion3.setText("Round 3");
         answer3a.setText(answerA);
         answer3b.setText(answerB);
         answer3c.setText(answerC);
-        answer3d.setText(answerD);
+        
     }
     
-    public void setQuestion4 (String a, String b, String answerA, String answerB, String answerC, String answerD) {
-        setA4(a);
-        setB4(b);
-        lbQuestion4.setText("4. " + a + " + " + b + " = ?");
-        answer4a.setText(answerA);
-        answer4b.setText(answerB);
-        answer4c.setText(answerC);
-        answer4d.setText(answerD);
-    }
     
     public void setStateHostRoom () {
         answer = false;
@@ -144,7 +133,6 @@ public class GameView extends javax.swing.JFrame {
         buttonGroup1.clearSelection();
         buttonGroup2.clearSelection();
         buttonGroup3.clearSelection();
-        buttonGroup4.clearSelection();
         
         btnStart.setVisible(false);
         lbWaiting.setVisible(false);
@@ -219,15 +207,6 @@ public class GameView extends javax.swing.JFrame {
         return null;
     }
     
-    public String getSelectedButton4() {  
-        for (Enumeration<AbstractButton> buttons = buttonGroup4.getElements(); buttons.hasMoreElements();) {
-            AbstractButton button = buttons.nextElement();
-            if (button.isSelected()) {
-                    return button.getText();
-            }
-        }
-        return null;
-    }
     
     public void pauseTime () {
         // pause timer
@@ -245,7 +224,6 @@ public class GameView extends javax.swing.JFrame {
         buttonGroup1 = new javax.swing.ButtonGroup();
         buttonGroup2 = new javax.swing.ButtonGroup();
         buttonGroup3 = new javax.swing.ButtonGroup();
-        buttonGroup4 = new javax.swing.ButtonGroup();
         infoPLayer = new javax.swing.JLabel();
         btnLeaveGame = new javax.swing.JButton();
         panel = new javax.swing.JPanel();
@@ -254,25 +232,16 @@ public class GameView extends javax.swing.JFrame {
         answer1a = new javax.swing.JRadioButton();
         answer1b = new javax.swing.JRadioButton();
         answer1c = new javax.swing.JRadioButton();
-        answer1d = new javax.swing.JRadioButton();
         jPanel3 = new javax.swing.JPanel();
         lbQuestion2 = new javax.swing.JLabel();
         answer2a = new javax.swing.JRadioButton();
         answer2b = new javax.swing.JRadioButton();
         answer2c = new javax.swing.JRadioButton();
-        answer2d = new javax.swing.JRadioButton();
         jPanel4 = new javax.swing.JPanel();
         lbQuestion3 = new javax.swing.JLabel();
         answer3a = new javax.swing.JRadioButton();
         answer3b = new javax.swing.JRadioButton();
         answer3c = new javax.swing.JRadioButton();
-        answer3d = new javax.swing.JRadioButton();
-        jPanel5 = new javax.swing.JPanel();
-        lbQuestion4 = new javax.swing.JLabel();
-        answer4a = new javax.swing.JRadioButton();
-        answer4b = new javax.swing.JRadioButton();
-        answer4c = new javax.swing.JRadioButton();
-        answer4d = new javax.swing.JRadioButton();
         pbgTimer = new javax.swing.JProgressBar();
         btnSubmit = new javax.swing.JButton();
         btnStart = new javax.swing.JButton();
@@ -312,9 +281,6 @@ public class GameView extends javax.swing.JFrame {
         buttonGroup1.add(answer1c);
         answer1c.setText("jRadioButton3");
 
-        buttonGroup1.add(answer1d);
-        answer1d.setText("jRadioButton4");
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -322,7 +288,6 @@ public class GameView extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(answer1d)
                     .addComponent(answer1c)
                     .addComponent(answer1b)
                     .addComponent(answer1a)
@@ -340,9 +305,7 @@ public class GameView extends javax.swing.JFrame {
                 .addComponent(answer1b)
                 .addGap(18, 18, 18)
                 .addComponent(answer1c)
-                .addGap(18, 18, 18)
-                .addComponent(answer1d)
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addContainerGap(56, Short.MAX_VALUE))
         );
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Question 2"));
@@ -358,9 +321,6 @@ public class GameView extends javax.swing.JFrame {
         buttonGroup2.add(answer2c);
         answer2c.setText("jRadioButton3");
 
-        buttonGroup2.add(answer2d);
-        answer2d.setText("jRadioButton4");
-
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -368,7 +328,6 @@ public class GameView extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(answer2d)
                     .addComponent(answer2c)
                     .addComponent(answer2b)
                     .addComponent(answer2a)
@@ -386,8 +345,6 @@ public class GameView extends javax.swing.JFrame {
                 .addComponent(answer2b)
                 .addGap(18, 18, 18)
                 .addComponent(answer2c)
-                .addGap(18, 18, 18)
-                .addComponent(answer2d)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -404,9 +361,6 @@ public class GameView extends javax.swing.JFrame {
         buttonGroup3.add(answer3c);
         answer3c.setText("jRadioButton3");
 
-        buttonGroup3.add(answer3d);
-        answer3d.setText("jRadioButton4");
-
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -414,7 +368,6 @@ public class GameView extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(answer3d)
                     .addComponent(answer3c)
                     .addComponent(answer3b)
                     .addComponent(answer3a)
@@ -432,54 +385,6 @@ public class GameView extends javax.swing.JFrame {
                 .addComponent(answer3b)
                 .addGap(18, 18, 18)
                 .addComponent(answer3c)
-                .addGap(18, 18, 18)
-                .addComponent(answer3d)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Question 4"));
-
-        lbQuestion4.setText("1. 61 + 23 = ?");
-
-        buttonGroup4.add(answer4a);
-        answer4a.setText("jRadioButton1");
-
-        buttonGroup4.add(answer4b);
-        answer4b.setText("jRadioButton2");
-
-        buttonGroup4.add(answer4c);
-        answer4c.setText("jRadioButton3");
-
-        buttonGroup4.add(answer4d);
-        answer4d.setText("jRadioButton4");
-
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(answer4d)
-                    .addComponent(answer4c)
-                    .addComponent(answer4b)
-                    .addComponent(answer4a)
-                    .addComponent(lbQuestion4, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(14, Short.MAX_VALUE))
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lbQuestion4, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(answer4a)
-                .addGap(18, 18, 18)
-                .addComponent(answer4b)
-                .addGap(18, 18, 18)
-                .addComponent(answer4c)
-                .addGap(18, 18, 18)
-                .addComponent(answer4d)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -494,8 +399,6 @@ public class GameView extends javax.swing.JFrame {
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelLayout.setVerticalGroup(
@@ -505,8 +408,7 @@ public class GameView extends javax.swing.JFrame {
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(57, 57, 57))
         );
 
@@ -560,7 +462,7 @@ public class GameView extends javax.swing.JFrame {
             .addGroup(panelPlayAgainLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lbResult, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
                 .addComponent(lbWaitingTimer, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(46, 46, 46)
                 .addComponent(btnYes, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -720,13 +622,6 @@ public class GameView extends javax.swing.JFrame {
         this.a3 = a3;
     }
 
-    public String getA4() {
-        return a4;
-    }
-
-    public void setA4(String a4) {
-        this.a4 = a4;
-    }
 
     public String getB1() {
         return b1;
@@ -752,14 +647,6 @@ public class GameView extends javax.swing.JFrame {
         this.b3 = b3;
     }
 
-    public String getB4() {
-        return b4;
-    }
-
-    public void setB4(String b4) {
-        this.b4 = b4;
-    }
-
     public boolean isAnswer() {
         return answer;
     }
@@ -774,19 +661,12 @@ public class GameView extends javax.swing.JFrame {
     private javax.swing.JRadioButton answer1a;
     private javax.swing.JRadioButton answer1b;
     private javax.swing.JRadioButton answer1c;
-    private javax.swing.JRadioButton answer1d;
     private javax.swing.JRadioButton answer2a;
     private javax.swing.JRadioButton answer2b;
     private javax.swing.JRadioButton answer2c;
-    private javax.swing.JRadioButton answer2d;
     private javax.swing.JRadioButton answer3a;
     private javax.swing.JRadioButton answer3b;
     private javax.swing.JRadioButton answer3c;
-    private javax.swing.JRadioButton answer3d;
-    private javax.swing.JRadioButton answer4a;
-    private javax.swing.JRadioButton answer4b;
-    private javax.swing.JRadioButton answer4c;
-    private javax.swing.JRadioButton answer4d;
     private javax.swing.JButton btnLeaveGame;
     private javax.swing.JButton btnNo;
     private javax.swing.JButton btnStart;
@@ -795,16 +675,13 @@ public class GameView extends javax.swing.JFrame {
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.ButtonGroup buttonGroup3;
-    private javax.swing.ButtonGroup buttonGroup4;
     private javax.swing.JLabel infoPLayer;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
     private javax.swing.JLabel lbQuestion1;
     private javax.swing.JLabel lbQuestion2;
     private javax.swing.JLabel lbQuestion3;
-    private javax.swing.JLabel lbQuestion4;
     private javax.swing.JLabel lbResult;
     private javax.swing.JLabel lbWaiting;
     private javax.swing.JLabel lbWaitingTimer;

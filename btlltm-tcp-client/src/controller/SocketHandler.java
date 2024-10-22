@@ -221,8 +221,7 @@ public class SocketHandler {
         String result1 = ClientRun.gameView.getSelectedButton1();
         String result2 = ClientRun.gameView.getSelectedButton2();
         String result3 = ClientRun.gameView.getSelectedButton3();
-        String result4 = ClientRun.gameView.getSelectedButton4();
-        if (result1 == null || result2 == null || result3 == null || result4 == null) {
+        if (result1 == null || result2 == null || result3 == null) {
             ClientRun.gameView.showMessage("Don't leave blank!");
         } else {
             ClientRun.gameView.pauseTime();
@@ -234,7 +233,6 @@ public class SocketHandler {
             String data = ClientRun.gameView.getA1() + ";" + ClientRun.gameView.getB1() + ";" + result1 + ";"
                         + ClientRun.gameView.getA2() + ";" + ClientRun.gameView.getB2() + ";" + result2 + ";"
                         + ClientRun.gameView.getA3() + ";" + ClientRun.gameView.getB3() + ";" + result3 + ";"
-                        + ClientRun.gameView.getA4() + ";" + ClientRun.gameView.getB4() + ";" + result4 + ";"
                         + time;
             
             sendData("SUBMIT_RESULT;" + loginUser + ";" + competitor + ";" + roomIdPresent + ";" + data);
@@ -315,6 +313,7 @@ public class SocketHandler {
         if (status.equals("success")) {
             int userCount = Integer.parseInt(splitted[2]);
 
+           
             Vector vheader = new Vector();
             vheader.add("User");
 
@@ -528,62 +527,47 @@ public class SocketHandler {
             String answer1a = splitted[5];
             String answer1b = splitted[6];
             String answer1c = splitted[7];
-            String answer1d = splitted[8];
-            ClientRun.gameView.setQuestion1(a1, b1, answer1a, answer1b, answer1c, answer1d);
+            ClientRun.gameView.setQuestion1(a1, b1, answer1a, answer1b, answer1c);
             
-            String a2 = splitted[9];
-            String b2 = splitted[10];
-            String answer2a = splitted[11];
-            String answer2b = splitted[12];
-            String answer2c = splitted[13];
-            String answer2d = splitted[14];
-            ClientRun.gameView.setQuestion2(a2, b2, answer2a, answer2b, answer2c, answer2d);
+            String a2 = splitted[8];
+            String b2 = splitted[9];
+            String answer2a = splitted[10];
+            String answer2b = splitted[11];
+            String answer2c = splitted[12];
+            ClientRun.gameView.setQuestion2(a2, b2, answer2a, answer2b, answer2c);
             
-            String a3 = splitted[15];
-            String b3 = splitted[16];
-            String answer3a = splitted[17];
-            String answer3b = splitted[18];
-            String answer3c = splitted[19];
-            String answer3d = splitted[20];
-            ClientRun.gameView.setQuestion3(a3, b3, answer3a, answer3b, answer3c, answer3d);
+            String a3 = splitted[13];
+            String b3 = splitted[14];
+            String answer3a = splitted[15];
+            String answer3b = splitted[16];
+            String answer3c = splitted[17];
+            ClientRun.gameView.setQuestion3(a3, b3, answer3a, answer3b, answer3c);
             
-            String a4 = splitted[21];
-            String b4 = splitted[22];
-            String answer4a = splitted[23];
-            String answer4b = splitted[24];
-            String answer4c = splitted[25];
-            String answer4d = splitted[26];
-            ClientRun.gameView.setQuestion4(a4, b4, answer4a, answer4b, answer4c, answer4d);
             
             ClientRun.gameView.setStartGame(30);
         }
     }
     
     private void onReceiveResultGame(String received) {
-    // get status from data
-    String[] splitted = received.split(";");
-    String status = splitted[1];
-    String result = splitted[2];
-    String user1 = splitted[3];
-    String user2 = splitted[4];
-    String roomId = splitted[5];
-    
-    if (status.equals("success")) {
-        ClientRun.gameView.setWaitingRoom();
-
-        if (result.equals("DRAW")) {
-            ClientRun.gameView.showAskPlayAgain("The game is draw. Do you want to play again?");
-        } else {
-            // Tính điểm sau mỗi ván
-            if (result.equals(loginUser)) {
-                ClientRun.gameView.updateScore(10); // Cộng điểm nếu người chơi thắng
-                ClientRun.gameView.showAskPlayAgain("You won! Do you want to play again?");
+        // get status from data
+        String[] splitted = received.split(";");
+        String status = splitted[1];
+        String result = splitted[2];
+        String user1 = splitted[3];
+        String user2 = splitted[4];
+        String roomId = splitted[5];
+        
+        if (status.equals("success")) {
+            ClientRun.gameView.setWaitingRoom();
+            if (result.equals("DRAW")) {
+                ClientRun.gameView.showAskPlayAgain("The game is draw. Do you want to play continue?");
+            } else if (result.equals(loginUser)) {
+                ClientRun.gameView.showAskPlayAgain("You win. Do you want to play continue?");
             } else {
-                ClientRun.gameView.showAskPlayAgain(user1 + " wins the game. Do you want to play again?");
+                ClientRun.gameView.showAskPlayAgain("You lose. Do you want to play continue?");
             }
         }
     }
-}
     
     private void onReceiveAskPlayAgain(String received) {
         // get status from data

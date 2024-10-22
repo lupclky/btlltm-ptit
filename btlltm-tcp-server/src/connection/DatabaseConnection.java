@@ -1,27 +1,21 @@
 package connection;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-
 public class DatabaseConnection {
 	
     private final String jdbcURL = "jdbc:mysql://localhost:3306/db?useSSL=false";
     private final String jdbcUsername = "root";
     private final String jdbcPassword = "1234";
-
     private static DatabaseConnection instance;
     private Connection connection;
-
     public static DatabaseConnection getInstance() {
         if (instance == null) {
             instance = new DatabaseConnection();
         }
         return instance;
     }
-
     private DatabaseConnection() {
-
     }
     
     public Connection getConnection() {
