@@ -25,12 +25,17 @@ public class Room {
     
     String playAgainC1;
     String playAgainC2;
-    String waitingTime= "00:00";
+    String waitingTime = "00:00";
 
     public LocalDateTime startedTime;
+    
+    // Thêm biến để đếm số ván
+    int currentRound = 1;
+    int totalRounds = 3;
+    int scoreClient1 = 0;
+    int scoreClient2 = 0;
 
     public Room(String id) {
-        // room id
         this.id = id;
     }
 
@@ -95,99 +100,65 @@ public class Room {
         playAgainC2 = null;
         time = "00:00";
         waitingTime = "00:00";
-    }
-    
-    public String handleResultClient() throws SQLException {
-        int timeClient1 = 0;
-        int timeClient2 = 0;
-        
-        if (resultClient1 != null) {
-            String[] splitted1 = resultClient1.split(";");
-            timeClient1 = Integer.parseInt(splitted1[16]);
-        }
-        if (resultClient2 != null) {
-            String[] splitted2 = resultClient2.split(";");
-            timeClient2 = Integer.parseInt(splitted2[16]);
-        }
-        
-        if (resultClient1 == null & resultClient2 == null) {
-            draw();
-            return "DRAW";
-        } else if (resultClient1 != null && resultClient2 == null) {
-            if (calculateResult(resultClient1) > 0) {
-                client1Win(timeClient1);
-                return client1.getLoginUser();
-            } else {
-                draw();
-                return "DRAW";
-            }
-        } else if (resultClient1 == null && resultClient2 != null) {
-            if (calculateResult(resultClient2) > 0) {
-                client2Win(timeClient2);
-                return client2.getLoginUser();
-            } else {
-                draw();
-                return "DRAW";
-            }
-        } else if (resultClient1 != null && resultClient2 != null) {
-            int pointClient1 = calculateResult(resultClient1);
-            int pointClient2 = calculateResult(resultClient2);
-            
-            if (pointClient1 > pointClient2) {
-                client1Win(timeClient1);
-                return client1.getLoginUser();
-            } else if (pointClient1 < pointClient2) {
-                client2Win(timeClient2);
-                return client2.getLoginUser();
-            } else {
-                draw();
-                return "DRAW";
-            }
-        }
-        return null;
-    }
-    
-    public int calculateResult (String received) {
-        String[] splitted = received.split(";");
-        
-        String user1 = splitted[1];
-        
-        String a1 = splitted[4];
-        String b1 = splitted[5];
-        String r1 = splitted[6];
-        String a2 = splitted[7];
-        String b2 = splitted[8];
-        String r2 = splitted[9];
-        String a3 = splitted[10];
-        String b3 = splitted[11];
-        String r3 = splitted[12];
-        String a4 = splitted[13];
-        String b4 = splitted[14];
-        String r4 = splitted[15];
-        
-        int i = 0;
-        int c1 = Integer.parseInt(a1) + Integer.parseInt(b1);
-        int c2 = Integer.parseInt(a2) + Integer.parseInt(b2);
-        int c3 = Integer.parseInt(a3) + Integer.parseInt(b3);
-        int c4 = Integer.parseInt(a4) + Integer.parseInt(b4);
-        
-        if (c1 == Integer.parseInt(r1)) {
-            i++;
-        } 
-        if (c2 == Integer.parseInt(r2)) {
-            i++;
-        } 
-        if (c3 == Integer.parseInt(r3)) {
-            i++;
-        } 
-        if (c4 == Integer.parseInt(r4)) {
-            i++;
-        } 
-        
-        System.out.println(user1 + " : " + i + " cau dung");
-        return i;
+        currentRound = 1; // Reset lại số ván
+        scoreClient1 = 0;
+        scoreClient2 = 0;
     }
 
+    // Cập nhật phương thức để tính điểm theo từng ván và cộng dồn
+    public String handleResultClient() throws SQLException {
+        if (resultClient1 != null) {
+            scoreClient1 += calculateResult(resultClient1); // Cộng dồn điểm
+        }
+        if (resultClient2 != null) {
+            scoreClient2 += calculateResult(resultClient2); // Cộng dồn điểm
+        }
+        
+        if (currentRound < totalRounds) {
+            currentRound++; // Tăng số ván
+            resetRoom(); // Chuẩn bị cho ván tiếp theo
+            broadcast("NEXT_ROUND;" + currentRound);
+            return "NEXT_ROUND";
+        } else {
+            // Đánh giá kết quả sau 3 ván
+            if (scoreClient1 > scoreClient2) {
+                client1Win(1);
+                return client1.getLoginUser();
+            } else if (scoreClient1 < scoreClient2) {
+                client2Win(1);
+                return client2.getLoginUser();
+            } else {
+                draw();
+                return "DRAW";
+            }
+        }
+    }
+    
+    // Cập nhật để mỗi câu trả lời đúng cộng 10 điểm
+    public int calculateResult(String received) {
+        String[] splitted = received.split(";");
+        
+        int i = 0;
+        int c1 = Integer.parseInt(splitted[4]) + Integer.parseInt(splitted[5]);
+        int c2 = Integer.parseInt(splitted[7]) + Integer.parseInt(splitted[8]);
+        int c3 = Integer.parseInt(splitted[10]) + Integer.parseInt(splitted[11]);
+        int c4 = Integer.parseInt(splitted[13]) + Integer.parseInt(splitted[14]);
+        
+        if (c1 == Integer.parseInt(splitted[6])) {
+            i += 10; // Mỗi câu đúng cộng 10 điểm
+        }
+        if (c2 == Integer.parseInt(splitted[9])) {
+            i += 10;
+        }
+        if (c3 == Integer.parseInt(splitted[12])) {
+            i += 10;
+        }
+        if (c4 == Integer.parseInt(splitted[15])) {
+            i += 10;
+        }
+        
+        return i;
+    }
     public void draw () throws SQLException {
         UserModel user1 = new UserController().getUser(client1.getLoginUser());
         UserModel user2 = new UserController().getUser(client2.getLoginUser());

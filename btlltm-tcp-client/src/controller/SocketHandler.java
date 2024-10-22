@@ -560,25 +560,30 @@ public class SocketHandler {
     }
     
     private void onReceiveResultGame(String received) {
-        // get status from data
-        String[] splitted = received.split(";");
-        String status = splitted[1];
-        String result = splitted[2];
-        String user1 = splitted[3];
-        String user2 = splitted[4];
-        String roomId = splitted[5];
-        
-        if (status.equals("success")) {
-            ClientRun.gameView.setWaitingRoom();
-            if (result.equals("DRAW")) {
-                ClientRun.gameView.showAskPlayAgain("The game is draw. Do you want to play continue?");
-            } else if (result.equals(loginUser)) {
-                ClientRun.gameView.showAskPlayAgain("You win. Do you want to play continue?");
+    // get status from data
+    String[] splitted = received.split(";");
+    String status = splitted[1];
+    String result = splitted[2];
+    String user1 = splitted[3];
+    String user2 = splitted[4];
+    String roomId = splitted[5];
+    
+    if (status.equals("success")) {
+        ClientRun.gameView.setWaitingRoom();
+
+        if (result.equals("DRAW")) {
+            ClientRun.gameView.showAskPlayAgain("The game is draw. Do you want to play again?");
+        } else {
+            // Tính điểm sau mỗi ván
+            if (result.equals(loginUser)) {
+                ClientRun.gameView.updateScore(10); // Cộng điểm nếu người chơi thắng
+                ClientRun.gameView.showAskPlayAgain("You won! Do you want to play again?");
             } else {
-                ClientRun.gameView.showAskPlayAgain("You lose. Do you want to play continue?");
+                ClientRun.gameView.showAskPlayAgain(user1 + " wins the game. Do you want to play again?");
             }
         }
     }
+}
     
     private void onReceiveAskPlayAgain(String received) {
         // get status from data
