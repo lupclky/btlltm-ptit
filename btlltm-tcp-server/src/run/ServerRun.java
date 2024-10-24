@@ -44,7 +44,7 @@ public class ServerRun {
 
             // server main loop - listen to client's connection
             while (!isShutDown) {
-                try {   
+                try {
                     // socket object to receive incoming client requests
                     Socket s = ss.accept();
                      System.out.println("+ New Client connected: " + s);

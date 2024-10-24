@@ -39,7 +39,6 @@ public class RandomString {
     public RandomString(int length, Random random) {
         this(length, random, alphanum);
     }
-
     /**
      * Create an alphanumeric strings from a secure generator.
      */

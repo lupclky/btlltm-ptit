@@ -41,7 +41,7 @@ public class Room {
     public void startGame() {
         gameStarted = true;
         
-        matchTimer = new CountDownTimer(31);
+        matchTimer = new CountDownTimer(151);
         matchTimer.setTimerCallBack(
             null,
             (Callable) () -> {
@@ -61,7 +61,7 @@ public class Room {
     }
     
     public void waitingClientTimer() {
-        waitingTimer = new CountDownTimer(12);
+        waitingTimer = new CountDownTimer(11);
         waitingTimer.setTimerCallBack(
             null,
             (Callable) () -> {
@@ -98,45 +98,38 @@ public class Room {
     }
     
     public String handleResultClient() throws SQLException {
-        int timeClient1 = 0;
+        int timeClient1 = 0; //split[5]
         int timeClient2 = 0;
+        int scoreUser1 = -1;
+        int scoreUser2 = -1;
         
-        if (resultClient1 != null) {
-            String[] splitted1 = resultClient1.split(";");
-            timeClient1 = Integer.parseInt(splitted1[13]);
+
+        if(resultClient1 != null){
+            String[] split = resultClient1.split(";");
+            scoreUser1 = Integer.parseInt(split[4]);
+            timeClient1 = Integer.parseInt(split[5]);
         }
-        if (resultClient2 != null) {
-            String[] splitted2 = resultClient2.split(";");
-            timeClient2 = Integer.parseInt(splitted2[13]);
+        if(resultClient2 != null){
+            String[] split = resultClient2.split(";");
+            scoreUser2 = Integer.parseInt(split[4]);
+            timeClient2 = Integer.parseInt(split[5]);
         }
-        
-        if (resultClient1 == null & resultClient2 == null) {
+        if(resultClient1 == null && resultClient2 == null){
             draw();
             return "DRAW";
-        } else if (resultClient1 != null && resultClient2 == null) {
-            if (calculateResult(resultClient1) > 0) {
+        }
+        else if(resultClient1 != null && resultClient2 == null){
+            if(scoreUser1 >0){
                 client1Win(timeClient1);
                 return client1.getLoginUser();
-            } else {
+            }
+            else{
                 draw();
                 return "DRAW";
             }
-        } else if (resultClient1 == null && resultClient2 != null) {
-            if (calculateResult(resultClient2) > 0) {
-                client2Win(timeClient2);
-                return client2.getLoginUser();
-            } else {
-                draw();
-                return "DRAW";
-            }
-        } else if (resultClient1 != null && resultClient2 != null) {
-            int pointClient1 = calculateResult(resultClient1);
-            int pointClient2 = calculateResult(resultClient2);
-            
-            if (pointClient1 > pointClient2) {
-                client1Win(timeClient1);
-                return client1.getLoginUser();
-            } else if (pointClient1 < pointClient2) {
+        }
+        else if (resultClient1 == null && resultClient2 != null) {        
+            if (scoreUser2 > 0) {
                 client2Win(timeClient2);
                 return client2.getLoginUser();
             } else {
@@ -144,41 +137,26 @@ public class Room {
                 return "DRAW";
             }
         }
+        else if (resultClient1 != null && resultClient2 != null) {
+            
+            if (scoreUser1 > scoreUser2) {
+                client1Win(timeClient1);
+                return client1.getLoginUser();
+            } else if (scoreUser1 < scoreUser2) {
+                client2Win(timeClient2);
+                return client2.getLoginUser();
+            } else {
+                draw();
+                return "DRAW";
+            }
+        }
+//        if(scoreUser1 == scoreUser2) return "DRAW";
+//        else if(scoreUser1 > scoreUser2) return "WIN";
+//        else return null;
         return null;
     }
     
-    public int calculateResult (String received) {
-        String[] splitted = received.split(";");
-        
-        String user1 = splitted[1];
-        
-        String b1 = splitted[5];
-        String r1 = splitted[6];
-        String b2 = splitted[8];
-        String r2 = splitted[9];
-        String b3 = splitted[11];
-        String r3 = splitted[12];
-    
-        
-        int i = 0;
-        int c1 = Integer.parseInt(b1);
-        int c2 = Integer.parseInt(b2);
-        int c3 = Integer.parseInt(b3);
 
-        
-        if (c1 == Integer.parseInt(r1)) {
-            i++;
-        } 
-        if (c2 == Integer.parseInt(r2)) {
-            i++;
-        } 
-        if (c3 == Integer.parseInt(r3)) {
-            i++;
-        } 
-        
-        System.out.println(user1 + " : " + i + " cau dung");
-        return i;
-    }
 
     public void draw () throws SQLException {
         UserModel user1 = new UserController().getUser(client1.getLoginUser());
@@ -195,9 +173,6 @@ public class Room {
         
         float newAvgCompetitor1 = (totalMatchUser1 * user1.getAvgCompetitor() + user2.getScore()) / (totalMatchUser1 + 1);
         float newAvgCompetitor2 = (totalMatchUser2 * user1.getAvgCompetitor() + user1.getScore()) / (totalMatchUser2 + 1);
-        
-//        newAvgCompetitor1 = Math.round(newAvgCompetitor1 * 100) / 100;
-//        newAvgCompetitor2 = Math.round(newAvgCompetitor2 * 100) / 100;
         
         user1.setAvgCompetitor(newAvgCompetitor1);
         user2.setAvgCompetitor(newAvgCompetitor2);

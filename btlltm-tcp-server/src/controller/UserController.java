@@ -9,7 +9,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 import connection.DatabaseConnection;
 import model.UserModel;
@@ -62,9 +61,9 @@ public class UserController {
     	//  Check user exit
         try {
             PreparedStatement p = con.prepareStatement(LOGIN_USER);
+            //  Login User 
             p.setString(1, username);
             p.setString(2, password);
-            System.out.println(username+ " " + password);
             ResultSet r = p.executeQuery();
             
             if (r.next()) {

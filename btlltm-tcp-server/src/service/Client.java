@@ -28,6 +28,9 @@ public class Client implements Runnable {
 
     String loginUser;
     Client cCompetitor;
+    private int score = 0; // điểm của người chơi này
+    private int round = 0; // đếm số ván đã chơi
+    private boolean isPlaying = false; // kiểm tra trạng thái đang chơi
     
 //    ArrayList<Client> clients
     Room joinedRoom; // if == null => chua vao phong nao het
@@ -163,7 +166,7 @@ public class Client implements Runnable {
 
         // check login
         String result = new UserController().login(username, password);
-        System.out.println(result);
+
         if (result.split(";")[0].equals("success")) {
             // set login user
             this.loginUser = username;
@@ -290,6 +293,7 @@ public class Client implements Runnable {
         // send result
         String msg = "INVITE_TO_PLAY;" + "success;" + userHost + ";" + userInvited + ";" + joinedRoom.getId();
         ServerRun.clientManager.sendToAClient(userInvited, msg);
+        System.out.println("userInvited: " + userInvited);
     }
     
     private void onReceiveAcceptPlay(String received) {
@@ -372,88 +376,118 @@ public class Client implements Runnable {
             }
         }
         // send result
-        sendData("CHECK_STATUS_USER" + ";" + username + ";" + status);
+//        sendData("CHECK_STATUS_USER" + ";" + username + ";" + status);
+        // cần phải gửi đúng người được mời
+        ServerRun.clientManager.sendToAClient(username, "CHECK_STATUS_USER" + ";" + username + ";" + status);
     }
             
-    private void onReceiveStartGame(String received) {
+private void onReceiveStartGame(String received) {
         String[] splitted = received.split(";");
         String user1 = splitted[1];
         String user2 = splitted[2];
         String roomId = splitted[3];
+
+        // Gửi 3 câu hỏi cho 3 ván đấu
+        int question1 = Question.renQuestion();
+        int question2 = Question.renQuestion();
+        int question3 = Question.renQuestion();
+
+        String data = "START_GAME;success;" + roomId + ";" + Integer.toString(question1)+ ";" + Integer.toString(question2) + ";" + Integer.toString(question3);
         
-        String question1 = Question.renQuestion();
-        String question2 = Question.renQuestion();
-        String question3 = Question.renQuestion();
-        System.out.println(question3);
-        String data = "START_GAME;success;" + roomId + ";" + question1 + question2 + question3;
-        // Send question here
         joinedRoom.resetRoom();
-        joinedRoom.broadcast(data);
-        joinedRoom.startGame();
-    } 
-    
-    private void onReceiveSubmitResult(String received) throws SQLException {
+        joinedRoom.broadcast(data); // Gửi câu hỏi
+        joinedRoom.startGame(); // Bắt đầu game
+        
+        isPlaying = true;
+        startCountdown(); // Bắt đầu đếm ngược
+    }
+ 
+    // Xử lý kết quả tính
+private void onReceiveSubmitResult(String received) throws SQLException {
         String[] splitted = received.split(";");
         String user1 = splitted[1];
         String user2 = splitted[2];
         String roomId = splitted[3];
+        String scoreUser = splitted[4];
+        String timeUser = splitted[5];
+        System.out.print("ScoreUser = " + scoreUser);
         
         if (user1.equals(joinedRoom.getClient1().getLoginUser())) {
             joinedRoom.setResultClient1(received);
         } else if (user1.equals(joinedRoom.getClient2().getLoginUser())) {
             joinedRoom.setResultClient2(received);
         }
-        
-        while (!joinedRoom.getTime().equals("00:00") && joinedRoom.getTime() != null) {
-            System.out.println(joinedRoom.getTime());
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        if(joinedRoom.getResultClient1()!= null && joinedRoom.getResultClient2()!= null){
+            String finalResult = "RESULT_GAME;success;" + scoreUser + ";" 
+                             + joinedRoom.handleResultClient() + ";"
+                             + joinedRoom.getClient1().getLoginUser() + ";" 
+                             + joinedRoom.getClient2().getLoginUser() + ";" 
+                             + joinedRoom.getId();
+            joinedRoom.broadcast(finalResult); // Gửi kết quả cuối cùng
+            System.out.println("Ket quar cuoi" + finalResult);
+        }
+    }
+    private void resetGame() {
+        this.score = 0; // Reset điểm
+        this.round = 0; // Reset số ván chơi
+        this.isPlaying = false; // Đặt trạng thái là không chơi
+        this.cCompetitor = null;
+        this.joinedRoom = null;
+    }
+    private void startCountdown() {
+        new Thread(() -> {
+            int countdown = 30; // 30 giây cho mỗi ván
+            while (countdown > 0 && isPlaying) {
+                System.out.println("Time left: " + countdown + " seconds");
+                try {
+                    Thread.sleep(1000); // Đếm ngược 1 giây
+                    countdown--;
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
-        } 
-        
-        String data = "RESULT_GAME;success;" + joinedRoom.handleResultClient() 
-                + ";" + joinedRoom.getClient1().getLoginUser() + ";" + joinedRoom.getClient2().getLoginUser() + ";" + joinedRoom.getId();
-        System.out.println(data);
-        joinedRoom.broadcast(data);
-    } 
+            
+            if (countdown == 0) {
+                // Nếu hết giờ mà chưa nhận được kết quả, tự động kết thúc ván
+                String timeoutMessage = "TIMEOUT;success;" + this.score;
+                joinedRoom.broadcast(timeoutMessage); // Thông báo hết thời gian
+                this.round++;
+                
+                if (this.round >= 3) {
+                    resetGame(); // Kết thúc game sau 3 ván
+                }
+            }
+        }).start();
+    }
+    
     
     private void onReceiveAskPlayAgain(String received) throws SQLException {
         String[] splitted = received.split(";");
         String reply = splitted[1];
         String user1 = splitted[2];
-        
-        System.out.println("client1: " + joinedRoom.getClient1().getLoginUser());
-        System.out.println("client2: " + joinedRoom.getClient2().getLoginUser());
-        
+
         if (user1.equals(joinedRoom.getClient1().getLoginUser())) {
             joinedRoom.setPlayAgainC1(reply);
         } else if (user1.equals(joinedRoom.getClient2().getLoginUser())) {
             joinedRoom.setPlayAgainC2(reply);
         }
-        
+
         while (!joinedRoom.getWaitingTime().equals("00:00")) {
             try {
-                Thread.sleep(1000);
+                Thread.sleep(1000); // Đợi phản hồi từ đối thủ
             } catch (InterruptedException ex) {
                 Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } 
-        
-        String result = this.joinedRoom.handlePlayAgain();
+        }
+
+        String result = joinedRoom.handlePlayAgain();
         if (result.equals("YES")) {
             joinedRoom.broadcast("ASK_PLAY_AGAIN;YES;" + joinedRoom.getClient1().loginUser + ";" + joinedRoom.getClient2().loginUser);
-        } else if (result.equals("NO")) {
+        } else {
             joinedRoom.broadcast("ASK_PLAY_AGAIN;NO;");
-            
             Room room = ServerRun.roomManager.find(joinedRoom.getId());
-            // delete room            
-            ServerRun.roomManager.remove(room);
-            this.joinedRoom = null;
-            this.cCompetitor = null;
-        } else if (result == null) {
-            System.out.println("da co loi xay ra huhu");
+            ServerRun.roomManager.remove(room); // Xóa phòng khi không chơi lại
+            resetGame(); // Reset trạng thái sau khi chơi xong
         }
     }
         
