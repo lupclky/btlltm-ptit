@@ -19,3 +19,13 @@ CREATE TABLE `btlltm`.`users` (
   `avgCompetitor` FLOAT NOT NULL,
   `avgTime` FLOAT NOT NULL,
   PRIMARY KEY (`userId`));
+
+CREATE TABLE `btlltm`.`games`(
+    `gameId` INT NOT NULL AUTO_INCREMENT,
+    `user1` VARCHAR(45) NOT NULL,
+    `user2` VARCHAR(45) NOT NULL,
+    `score1` INT NOT NULL,
+    `score2` INT NOT NULL,
+    `roomId` VARCHAR(45) NOT NULL,
+    PRIMARY KEY (`gameId`)
+);

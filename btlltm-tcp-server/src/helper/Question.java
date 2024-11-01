@@ -11,8 +11,8 @@ public class Question {
         return (int) (Math.random() * 3) + 1;
     }
 
-    public static void main(String[] args) {
-        // Chạy chương trình và in ra số 1, 2 hoặc 3
-        System.out.println(renQuestion());
-    }
+//    public static void main(String[] args) {
+//        // Chạy chương trình và in ra số 1, 2 hoặc 3
+//        System.out.println(renQuestion());
+//    }
 }

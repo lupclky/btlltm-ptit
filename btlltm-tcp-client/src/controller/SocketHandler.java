@@ -112,6 +112,9 @@ public class SocketHandler {
                     case "LEAVE_TO_GAME":
                         onReceiveLeaveGame(received);
                         break;
+                    case "OUT_GAME":
+                        onReceiveOutGame(received);
+                        break;
                     case "CHECK_STATUS_USER":
                         onReceiveCheckStatusUser(received);
                         break;
@@ -121,9 +124,9 @@ public class SocketHandler {
                     case "RESULT_GAME":
                         onReceiveResultGame(received);
                         break;
-                    case "ASK_PLAY_AGAIN":
-                        onReceiveAskPlayAgain(received);
-                        break;
+//                    case "ASK_PLAY_AGAIN":
+//                        onReceiveAskPlayAgain(received);
+//                        break;
                         
                     case "EXIT":
                         running = false;
@@ -213,15 +216,15 @@ public class SocketHandler {
         sendData("LEAVE_TO_GAME;" + loginUser + ";" + userInvited + ";" + roomIdPresent);
     }
     
+    public void outGame(String userInvited){
+        sendData("OUT_GAME;" + loginUser + ";" + userInvited + ";" + roomIdPresent);
+    }
+    
     public void startGame (String userInvited) { 
         sendData("START_GAME;" + loginUser + ";" + userInvited + ";" + roomIdPresent);
     }
     
     public void submitResult (String competitor) { 
-//        String result1 = ClientRun.gameView.getSelectedButton1();
-//        String result2 = ClientRun.gameView.getSelectedButton2();
-//        String result3 = ClientRun.gameView.getSelectedButton3();
-//        String result4 = ClientRun.gameView.getSelectedButton4();
         int scoreUser = ClientRun.gameView.getScore();
         boolean doneUser = ClientRun.gameView.getDone();
 //        if (result1 == null || result2 == null || result3 == null || result4 == null) {
@@ -258,6 +261,7 @@ public class SocketHandler {
      */
     public void sendData(String data) {
         try {
+            System.out.println("SENT form client: " + data);
             dos.writeUTF(data);
         } catch (IOException ex) {
             System.out.println("Lỗi gửi dữ liệu");
@@ -500,6 +504,7 @@ public class SocketHandler {
         if (status.equals("success")) {
             String userHost = splitted[2];
             String userInvited = splitted[3];
+
             roomIdPresent = splitted[4];
             ClientRun.openScene(ClientRun.SceneName.GAMEVIEW);
             ClientRun.gameView.setInfoPlayer(userInvited);
@@ -532,6 +537,22 @@ public class SocketHandler {
             roomIdPresent = null;
             ClientRun.closeScene(ClientRun.SceneName.GAMEVIEW);   
             JOptionPane.showMessageDialog(ClientRun.homeView, user1 + " leave to game!");
+        }
+    }
+    
+    private void onReceiveOutGame(String received){
+        String[] splitted = received.split(";");
+        String status = splitted[1];
+
+        if (status.equals("success")) {
+            String user1 = splitted[2];
+            String user2 = splitted[3];
+
+            roomIdPresent = null;
+//            listener = null;
+            System.out.println("Roi phong và dữ liệu còn lại loginUser: " + loginUser);
+            ClientRun.closeScene(ClientRun.SceneName.GAMEVIEW);   
+            JOptionPane.showMessageDialog(ClientRun.homeView, "Game over!");
         }
     }
      
@@ -580,40 +601,41 @@ public class SocketHandler {
         // get status from data
         String[] splitted = received.split(";");
         String status = splitted[1];
-        String scoreUser = splitted[2];
-        String result = splitted[3];
-        String user1 = splitted[4];
-        String user2 = splitted[5];
-        String roomId = splitted[6];
+//        String scoreUser = splitted[2];
+        String result = splitted[2];
+        String user1 = splitted[3];
+        String user2 = splitted[4];
+        String roomId = splitted[5];
         
         if (status.equals("success")) {
             ClientRun.gameView.setWaitingRoom();
             if (result.equals("DRAW")) {
-                ClientRun.gameView.showAskPlayAgain("The game is draw. Do you want to play continue?");
+                ClientRun.gameView.showAskPlayAgain("The game is DRAW. ");
             } else if (result.equals(loginUser)) {
-                ClientRun.gameView.showAskPlayAgain("You win. Do you want to play continue?");
+                System.out.println("loginUsser + " + loginUser);
+                ClientRun.gameView.showAskPlayAgain("You WIN. Congratulation ");
             } else {
-                ClientRun.gameView.showAskPlayAgain("You lose. Do you want to play continue?");
+                ClientRun.gameView.showAskPlayAgain("You LOSE. Maybe next time ");
             }
         }
     }
     
-    private void onReceiveAskPlayAgain(String received) {
-        // get status from data
-        String[] splitted = received.split(";");
-        String status = splitted[1];
-        
-        if (status.equals("NO")) {
-            ClientRun.closeScene(ClientRun.SceneName.GAMEVIEW);
-            JOptionPane.showMessageDialog(ClientRun.homeView, "End Game!");
-        } else {
-            if (loginUser.equals(splitted[2])) {
-                ClientRun.gameView.setStateHostRoom();
-            } else {
-                ClientRun.gameView.setStateUserInvited();
-            }
-        }
-    }  
+//    private void onReceiveAskPlayAgain(String received) {
+//        // get status from data
+//        String[] splitted = received.split(";");
+//        String status = splitted[1];
+//        
+//        if (status.equals("NO")) {
+//            ClientRun.closeScene(ClientRun.SceneName.GAMEVIEW);
+//            JOptionPane.showMessageDialog(ClientRun.homeView, "End Game!");
+//        } else {
+//            if (loginUser.equals(splitted[2])) {
+//                ClientRun.gameView.setStateHostRoom();
+//            } else {
+//                ClientRun.gameView.setStateUserInvited();
+//            }
+//        }
+//    }  
     
     
     // get set

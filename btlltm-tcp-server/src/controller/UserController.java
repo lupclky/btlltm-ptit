@@ -9,8 +9,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Date;
 
 import connection.DatabaseConnection;
+import java.time.LocalDate;
+//import java.time.LocalDate;
+//import java.util.Date;
 import model.UserModel;
 /**
  *
@@ -27,7 +31,9 @@ public class UserController {
     private final String GET_INFO_USER = "SELECT username, password, score, win, draw, lose, avgCompetitor, avgTime FROM users WHERE username=?";
     
     private final String UPDATE_USER = "UPDATE users SET score = ?, win = ?, draw = ?, lose = ?, avgCompetitor = ?, avgTime = ? WHERE username=?";
-    //  Instance
+    
+    private final String UPDATE_GAME = "INSERT INTO games (host, guest, scoreHost, scoreGuest, status, timePlay) VALUES ( ?, ?, ?, ?, ?, ?);"; // cập nhật vào bảng games
+//  Instance
     private final Connection con;
     
     public UserController() {
@@ -115,6 +121,22 @@ public class UserController {
 //            ResultSet r = p.executeQuery();
         rowUpdated = p.executeUpdate() > 0;
         return rowUpdated;
+    }
+    
+    public void updateGame(String host, String guest, int scoreHost, int scoreGuest, String status) throws SQLException{
+        boolean updatedGame;
+        PreparedStatement p = con.prepareStatement(UPDATE_GAME);
+        
+        p.setString(1, host);
+        p.setString(2, guest);
+        p.setInt(3, scoreHost);
+        p.setInt(4, scoreGuest);
+        p.setString(5, status);
+        p.setDate(6, Date.valueOf(LocalDate.now() ));
+        
+        
+        updatedGame = p.executeUpdate()> 0;
+//        return updatedGame;
     }
 
     public UserModel getUser(String username) {
