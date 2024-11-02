@@ -381,50 +381,53 @@ public class Client implements Runnable {
         ServerRun.clientManager.sendToAClient(username, "CHECK_STATUS_USER" + ";" + username + ";" + status);
     }
             
-private void onReceiveStartGame(String received) {
+  private void onReceiveStartGame(String received) {
         String[] splitted = received.split(";");
-        String user1 = splitted[1];
-        String user2 = splitted[2];
         String roomId = splitted[3];
 
-        // Gửi 3 câu hỏi cho 3 ván đấu
+        // Tạo 3 câu hỏi cho 3 ván đấu
         int question1 = Question.renQuestion();
         int question2 = Question.renQuestion();
         int question3 = Question.renQuestion();
 
-        String data = "START_GAME;success;" + roomId + ";" + Integer.toString(question1)+ ";" + Integer.toString(question2) + ";" + Integer.toString(question3);
-        
+        String data = "START_GAME;success;" + roomId + ";" 
+                    + question1 + ";" + question2 + ";" + question3;
+
+        // Reset trạng thái phòng và bắt đầu game
         joinedRoom.resetRoom();
-        joinedRoom.broadcast(data); // Gửi câu hỏi
-        joinedRoom.startGame(); // Bắt đầu game
-        
+        joinedRoom.broadcast(data);
+        joinedRoom.startGame();
+
         isPlaying = true;
-        startCountdown(); // Bắt đầu đếm ngược
+        startCountdown(); // Bắt đầu đếm ngược cho mỗi ván
     }
  
     // Xử lý kết quả tính
 private void onReceiveSubmitResult(String received) throws SQLException {
         String[] splitted = received.split(";");
-        String user1 = splitted[1];
-        String user2 = splitted[2];
-        String roomId = splitted[3];
+        String user = splitted[1];
         String scoreUser = splitted[4];
-        String timeUser = splitted[5];
-        System.out.print("ScoreUser = " + scoreUser);
-        
-        if (user1.equals(joinedRoom.getClient1().getLoginUser())) {
+
+        if (user.equals(joinedRoom.getClient1().getLoginUser())) {
             joinedRoom.setResultClient1(received);
-        } else if (user1.equals(joinedRoom.getClient2().getLoginUser())) {
+        } else if (user.equals(joinedRoom.getClient2().getLoginUser())) {
             joinedRoom.setResultClient2(received);
         }
-        if(joinedRoom.getResultClient1()!= null && joinedRoom.getResultClient2()!= null){
-            String finalResult = "RESULT_GAME;success;" + scoreUser + ";" 
-                             + joinedRoom.handleResultClient() + ";"
-                             + joinedRoom.getClient1().getLoginUser() + ";" 
-                             + joinedRoom.getClient2().getLoginUser() + ";" 
-                             + joinedRoom.getId();
+
+        // Khi cả 2 kết quả đã được nhận
+        if (joinedRoom.getResultClient1() != null && joinedRoom.getResultClient2() != null) {
+            String finalResult = "RESULT_GAME;success;" + joinedRoom.handleFinalResult() + ";" 
+                               + joinedRoom.getClient1().getLoginUser() + ";" 
+                               + joinedRoom.getClient2().getLoginUser() + ";" 
+                               + joinedRoom.getId();
+
             joinedRoom.broadcast(finalResult); // Gửi kết quả cuối cùng
-            System.out.println("Ket quar cuoi" + finalResult);
+            this.round++; // Tăng số vòng đã chơi
+
+            // Nếu đã chơi hết 3 vòng thì kết thúc game
+            if (this.round >= 3) {
+                resetGame();
+            }
         }
     }
     private void resetGame() {
@@ -480,7 +483,7 @@ private void onReceiveSubmitResult(String received) throws SQLException {
             }
         }
 
-        String result = joinedRoom.handlePlayAgain();
+        String result = "NO";
         if (result.equals("YES")) {
             joinedRoom.broadcast("ASK_PLAY_AGAIN;YES;" + joinedRoom.getClient1().loginUser + ";" + joinedRoom.getClient2().loginUser);
         } else {
@@ -522,6 +525,10 @@ private void onReceiveSubmitResult(String received) throws SQLException {
 
     public void setJoinedRoom(Room joinedRoom) {
         this.joinedRoom = joinedRoom;
+    }
+
+    void send(String message) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
     

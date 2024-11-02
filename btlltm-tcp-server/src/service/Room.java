@@ -25,12 +25,16 @@ public class Room {
     
     String playAgainC1;
     String playAgainC2;
-    String waitingTime= "00:00";
+    String waitingTime = "00:00";
+    int round = 0; // Số vòng hiện tại
+    final int maxRounds = 3; // Tổng số vòng
+
+    int scoreClient1 = 0; // Tổng điểm của Client1
+    int scoreClient2 = 0; // Tổng điểm của Client2
 
     public LocalDateTime startedTime;
 
     public Room(String id) {
-        // room id
         this.id = id;
     }
 
@@ -40,53 +44,116 @@ public class Room {
 
     public void startGame() {
         gameStarted = true;
+        round = 1; // Bắt đầu vòng 1
         
-        matchTimer = new CountDownTimer(151);
+        startRound(); // Bắt đầu ván đầu tiên
+    }
+
+    public void startRound() {
+        if (round > maxRounds) {
+            endGame(); // Kết thúc trò chơi sau 3 vòng
+            return;
+        }
+
+        matchTimer = new CountDownTimer(30); // Mỗi ván kéo dài 30 giây
         matchTimer.setTimerCallBack(
             null,
             (Callable) () -> {
                 time = "" + CustumDateTimeFormatter.secondsToMinutes(matchTimer.getCurrentTick());
-                System.out.println(time);
+                System.out.println("Time for round " + round + ": " + time);
+
                 if (time.equals("00:00")) {
-                    waitingClientTimer();
-                    if (resultClient1 == null && resultClient2 == null) {
-                        draw();
-                        broadcast("RESULT_GAME;success;DRAW;" + client1.getLoginUser() + ";" + client2.getLoginUser() + ";" + id);
-                    } 
+                    sendAnswer();
+                    waitForNextRound();
                 }
                 return null;
             },
             1
         );
     }
-    
-    public void waitingClientTimer() {
-        waitingTimer = new CountDownTimer(11);
+
+    public void sendAnswer() {
+        // Gửi đáp án cho cả 2 client
+        broadcast("SEND_ANSWER;" + client1.getLoginUser() + ";" + client2.getLoginUser() + ";" + id);
+
+        // Cộng điểm cho mỗi client dựa trên kết quả của vòng
+        if (resultClient1 != null && resultClient1.contains("correct")) {
+            scoreClient1 += 10;
+        }
+        if (resultClient2 != null && resultClient2.contains("correct")) {
+            scoreClient2 += 10;
+        }
+    }
+
+    public void waitForNextRound() {
+        waitingTimer = new CountDownTimer(3); // Thời gian chờ 3 giây trước khi vào vòng tiếp theo
         waitingTimer.setTimerCallBack(
             null,
             (Callable) () -> {
                 waitingTime = "" + CustumDateTimeFormatter.secondsToMinutes(waitingTimer.getCurrentTick());
-                System.out.println("waiting: " + waitingTime);
+                System.out.println("Waiting: " + waitingTime);
+
                 if (waitingTime.equals("00:00")) {
-                    if (playAgainC1 == null && playAgainC2 == null) {
-                        broadcast("ASK_PLAY_AGAIN;NO");
-                        deleteRoom();
-                    } 
+                    round++; // Sang vòng tiếp theo
+                    startRound(); // Bắt đầu vòng mới
                 }
                 return null;
             },
             1
         );
     }
-    
-    public void deleteRoom () {
-        client1.setJoinedRoom(null);
-        client1.setcCompetitor(null);
-        client2.setJoinedRoom(null);
-        client2.setcCompetitor(null);
-        ServerRun.roomManager.remove(this);
+
+    public void endGame() {
+        System.out.println("Game Over! Final Result.");
+        
+        // Xử lý kết quả cuối cùng sau 3 vòng
+        String finalResult = "";
+        try {
+            finalResult = handleFinalResult();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        // Gửi kết quả cuối cùng
+        broadcast("RESULT_GAME;final;" + finalResult + ";" + id);
+        resetRoom(); // Đặt lại trạng thái phòng sau khi kết thúc game
     }
-    
+    public void userLeaveGame (String username) throws SQLException {
+        if (client1.getLoginUser().equals(username)) {
+            client2Win();
+        } else if (client2.getLoginUser().equals(username)) {
+            client1Win();
+        }
+    }
+    public String handleFinalResult() throws SQLException {
+        // Xác định người chiến thắng dựa trên tổng điểm sau 3 vòng
+        if (scoreClient1 > scoreClient2) {
+            client1Win();
+            return client1.getLoginUser();
+        } else if (scoreClient1 < scoreClient2) {
+            client2Win();
+            return client2.getLoginUser();
+        } else {
+            draw();
+            return "DRAW";
+        }
+    }
+
+    public void client1Win() throws SQLException {
+        broadcast("RESULT_GAME;win;" + client1.getLoginUser() + ";" + id);
+        new UserController().updateScore(client1.getLoginUser(), scoreClient1); // Cập nhật điểm cuối cùng của Client1
+    }
+
+    public void client2Win() throws SQLException {
+        broadcast("RESULT_GAME;win;" + client2.getLoginUser() + ";" + id);
+        new UserController().updateScore(client2.getLoginUser(), scoreClient2); // Cập nhật điểm cuối cùng của Client2
+    }
+
+    public void draw() {
+        broadcast("RESULT_GAME;draw;");
+        System.out.println("The game is a draw.");
+    }
+
     public void resetRoom() {
         gameStarted = false;
         resultClient1 = null;
@@ -95,171 +162,12 @@ public class Room {
         playAgainC2 = null;
         time = "00:00";
         waitingTime = "00:00";
+        round = 0;
+        scoreClient1 = 0;
+        scoreClient2 = 0;
     }
-    
-    public String handleResultClient() throws SQLException {
-        int timeClient1 = 0; //split[5]
-        int timeClient2 = 0;
-        int scoreUser1 = -1;
-        int scoreUser2 = -1;
-        
 
-        if(resultClient1 != null){
-            String[] split = resultClient1.split(";");
-            scoreUser1 = Integer.parseInt(split[4]);
-            timeClient1 = Integer.parseInt(split[5]);
-        }
-        if(resultClient2 != null){
-            String[] split = resultClient2.split(";");
-            scoreUser2 = Integer.parseInt(split[4]);
-            timeClient2 = Integer.parseInt(split[5]);
-        }
-        if(resultClient1 == null && resultClient2 == null){
-            draw();
-            return "DRAW";
-        }
-        else if(resultClient1 != null && resultClient2 == null){
-            if(scoreUser1 >0){
-                client1Win(timeClient1);
-                return client1.getLoginUser();
-            }
-            else{
-                draw();
-                return "DRAW";
-            }
-        }
-        else if (resultClient1 == null && resultClient2 != null) {        
-            if (scoreUser2 > 0) {
-                client2Win(timeClient2);
-                return client2.getLoginUser();
-            } else {
-                draw();
-                return "DRAW";
-            }
-        }
-        else if (resultClient1 != null && resultClient2 != null) {
-            
-            if (scoreUser1 > scoreUser2) {
-                client1Win(timeClient1);
-                return client1.getLoginUser();
-            } else if (scoreUser1 < scoreUser2) {
-                client2Win(timeClient2);
-                return client2.getLoginUser();
-            } else {
-                draw();
-                return "DRAW";
-            }
-        }
-//        if(scoreUser1 == scoreUser2) return "DRAW";
-//        else if(scoreUser1 > scoreUser2) return "WIN";
-//        else return null;
-        return null;
-    }
-    
-
-
-    public void draw () throws SQLException {
-        UserModel user1 = new UserController().getUser(client1.getLoginUser());
-        UserModel user2 = new UserController().getUser(client2.getLoginUser());
-        
-        user1.setDraw(user1.getDraw() + 1);
-        user2.setDraw(user2.getDraw() + 1);
-        
-        user1.setScore(user1.getScore()+ 0.5f);
-        user2.setScore(user2.getScore()+ 0.5f);
-        
-        int totalMatchUser1 = user1.getWin() + user1.getDraw() + user1.getLose();
-        int totalMatchUser2 = user2.getWin() + user2.getDraw() + user2.getLose();
-        
-        float newAvgCompetitor1 = (totalMatchUser1 * user1.getAvgCompetitor() + user2.getScore()) / (totalMatchUser1 + 1);
-        float newAvgCompetitor2 = (totalMatchUser2 * user1.getAvgCompetitor() + user1.getScore()) / (totalMatchUser2 + 1);
-        
-        user1.setAvgCompetitor(newAvgCompetitor1);
-        user2.setAvgCompetitor(newAvgCompetitor2);
-        
-        new UserController().updateUser(user1);
-        new UserController().updateUser(user2);
-    }
-    
-    public void client1Win(int time) throws SQLException {
-        UserModel user1 = new UserController().getUser(client1.getLoginUser());
-        UserModel user2 = new UserController().getUser(client2.getLoginUser());
-        
-        user1.setWin(user1.getWin() + 1);
-        user2.setLose(user2.getLose() + 1);
-        
-        user1.setScore(user1.getScore()+ 1);
-        
-        int totalMatchUser1 = user1.getWin() + user1.getDraw() + user1.getLose();
-        int totalMatchUser2 = user2.getWin() + user2.getDraw() + user2.getLose();
-        
-        float newAvgCompetitor1 = (totalMatchUser1 * user1.getAvgCompetitor() + user2.getScore()) / (totalMatchUser1 + 1);
-        float newAvgCompetitor2 = (totalMatchUser2 * user1.getAvgCompetitor() + user1.getScore()) / (totalMatchUser2 + 1);
-        
-        user1.setAvgCompetitor(newAvgCompetitor1);
-        user2.setAvgCompetitor(newAvgCompetitor2);
-        
-        float newAvgTime1 = (totalMatchUser1 * user1.getAvgTime() + time) / (totalMatchUser1 + 1);
-        System.out.println("newAvgTime1: " + newAvgTime1);
-        user1.setAvgTime(newAvgTime1);
-        
-        new UserController().updateUser(user1);
-        new UserController().updateUser(user2);
-    }
-    
-    public void client2Win(int time) throws SQLException {
-        UserModel user1 = new UserController().getUser(client1.getLoginUser());
-        UserModel user2 = new UserController().getUser(client2.getLoginUser());
-        
-        user2.setWin(user2.getWin() + 1);
-        user1.setLose(user1.getLose() + 1);
-        
-        user2.setScore(user2.getScore()+ 1);
-        
-        int totalMatchUser1 = user1.getWin() + user1.getDraw() + user1.getLose();
-        int totalMatchUser2 = user2.getWin() + user2.getDraw() + user2.getLose();
-        
-        float newAvgCompetitor1 = (totalMatchUser1 * user1.getAvgCompetitor() + user2.getScore()) / (totalMatchUser1 + 1);
-        float newAvgCompetitor2 = (totalMatchUser2 * user1.getAvgCompetitor() + user1.getScore()) / (totalMatchUser2 + 1);
-        
-        user1.setAvgCompetitor(newAvgCompetitor1);
-        user2.setAvgCompetitor(newAvgCompetitor2);
-        
-        float newAvgTime2 = (totalMatchUser2 * user2.getAvgTime() + time) / (totalMatchUser2 + 1);
-        System.out.println("newAvgTime2: " + newAvgTime2);
-        user2.setAvgTime(newAvgTime2);
-        
-        new UserController().updateUser(user1);
-        new UserController().updateUser(user2);
-    }
-    
-    public void userLeaveGame (String username) throws SQLException {
-        if (client1.getLoginUser().equals(username)) {
-            client2Win(0);
-        } else if (client2.getLoginUser().equals(username)) {
-            client1Win(0);
-        }
-    }
-    
-    public String handlePlayAgain () {
-        if (playAgainC1 == null || playAgainC2 == null) {
-            return "NO";
-        } else if (playAgainC1.equals("YES") && playAgainC2.equals("YES")) {
-            return "YES";
-        } else if (playAgainC1.equals("NO") && playAgainC2.equals("YES")) {
-//            ServerRun.clientManager.sendToAClient(client2.getLoginUser(), "ASK_PLAY_AGAIN;NO");
-//            deleteRoom();
-            return "NO";
-        } else if (playAgainC2.equals("NO") && playAgainC2.equals("YES")) {
-//            ServerRun.clientManager.sendToAClient(client1.getLoginUser(), "ASK_PLAY_AGAIN;NO");
-//            deleteRoom();
-            return "NO";
-        } else {
-            return "NO";
-        }
-    }
-    
-    // add/remove client
+    // Thêm/xóa client
     public boolean addClient(Client c) {
         if (!clients.contains(c)) {
             clients.add(c);
@@ -281,23 +189,23 @@ public class Room {
         return false;
     }
 
-    // broadcast messages
+    // Phát thông báo cho tất cả các client
     public void broadcast(String msg) {
         clients.forEach((c) -> {
             c.sendData(msg);
         });
     }
-    
+
     public Client find(String username) {
         for (Client c : clients) {
-            if (c.getLoginUser()!= null && c.getLoginUser().equals(username)) {
+            if (c.getLoginUser() != null && c.getLoginUser().equals(username)) {
                 return c;
             }
         }
         return null;
     }
 
-    // gets sets
+    // Getter/Setter cho các thuộc tính
     public String getId() {
         return id;
     }
@@ -381,6 +289,4 @@ public class Room {
     public void setWaitingTime(String waitingTime) {
         this.waitingTime = waitingTime;
     }
-    
-    
 }
