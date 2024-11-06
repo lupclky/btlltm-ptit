@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="btlltm-tcp-client">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/btlltm-tcp-client/dist/btlltm-tcp-client.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

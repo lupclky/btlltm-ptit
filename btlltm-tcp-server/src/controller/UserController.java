@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import connection.DatabaseConnection;
 import model.UserModel;
@@ -62,10 +63,18 @@ public class UserController {
         PreparedStatement p = null;
         ResultSet r = null;
         try {
+<<<<<<< HEAD
             p = con.prepareStatement(LOGIN_USER);
             p.setString(1, username);
             p.setString(2, password);
             r = p.executeQuery();
+=======
+            PreparedStatement p = con.prepareStatement(LOGIN_USER);
+            p.setString(1, username);
+            p.setString(2, password);
+            System.out.println(username+ " " + password);
+            ResultSet r = p.executeQuery();
+>>>>>>> parent of 37dc135 (NQ Hai Dang sửa toàn bộ)
             
             if (r.next()) {
                 float score = r.getFloat("score");

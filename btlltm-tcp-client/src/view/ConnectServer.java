@@ -5,7 +5,6 @@
  */
 package view;
 
-import controller.SocketHandler;
 import javax.swing.JOptionPane;
 import run.ClientRun;
 
@@ -20,11 +19,6 @@ public class ConnectServer extends javax.swing.JFrame {
      */
     public ConnectServer() {
         initComponents();
-    
-        // Khởi tạo socketHandler nếu nó chưa được khởi tạo
-        if (ClientRun.socketHandler == null) {
-            ClientRun.socketHandler = new SocketHandler();
-        }
     }
 
     /**
@@ -58,13 +52,9 @@ public class ConnectServer extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel3.setText("PORT");
 
+        txPort.setEditable(false);
         txPort.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txPort.setText("2000");
-        txPort.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txPortActionPerformed(evt);
-            }
-        });
 
         btnConnect.setText("CONNECT");
         btnConnect.addActionListener(new java.awt.event.ActionListener() {
@@ -127,7 +117,6 @@ public class ConnectServer extends javax.swing.JFrame {
         try {
             ip = txIP.getText();
             port = Integer.parseInt(txPort.getText());
-            System.out.println("port = " + port + "; IP = " + ip);
 
             if (port < 0 || port > 65535) {
                 JOptionPane.showMessageDialog(this, "Port phải từ 0 - 65535", "Sai port", JOptionPane.ERROR_MESSAGE);
@@ -144,12 +133,6 @@ public class ConnectServer extends javax.swing.JFrame {
         // connect to server
         connect(ip, port);
     }//GEN-LAST:event_btnConnectActionPerformed
-
-    private void txPortActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txPortActionPerformed
-        // TODO add your handling code here:
-        String txPortString = txIP.getText();
-        System.out.println(txPortString);
-    }//GEN-LAST:event_txPortActionPerformed
 
     private void connect(String ip, int port) {
 

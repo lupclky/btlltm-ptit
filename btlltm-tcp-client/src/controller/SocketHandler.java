@@ -218,25 +218,25 @@ public class SocketHandler {
     }
     
     public void submitResult (String competitor) { 
-
-        int scoreUser = ClientRun.gameView.getScore();
-        boolean doneUser = ClientRun.gameView.getDone();
-
-        if(doneUser){
+        String result1 = ClientRun.gameView.getSelectedButton1();
+        String result2 = ClientRun.gameView.getSelectedButton2();
+        String result3 = ClientRun.gameView.getSelectedButton3();
+        if (result1 == null || result2 == null || result3 == null) {
+            ClientRun.gameView.showMessage("Don't leave blank!");
+        } else {
             ClientRun.gameView.pauseTime();
             // Handle calculate time
             String[] splitted = ClientRun.gameView.pbgTimer.getString().split(":");
             String countDownTime = splitted[1];
-            int time = 150 - Integer.parseInt(countDownTime);
+            int time = 30 - Integer.parseInt(countDownTime);
             
-            String data = "" + scoreUser + 
-                    ";" + time;
+            String data = ClientRun.gameView.getA1() + ";" + ClientRun.gameView.getB1() + ";" + result1 + ";"
+                        + ClientRun.gameView.getA2() + ";" + ClientRun.gameView.getB2() + ";" + result2 + ";"
+                        + ClientRun.gameView.getA3() + ";" + ClientRun.gameView.getB3() + ";" + result3 + ";"
+                        + time;
             
             sendData("SUBMIT_RESULT;" + loginUser + ";" + competitor + ";" + roomIdPresent + ";" + data);
             ClientRun.gameView.afterSubmit();
-        }
-        else{
-            ClientRun.gameView.showMessage("Bạn chưa hoàn thành trò chơi");
         }
     }
     
@@ -255,7 +255,6 @@ public class SocketHandler {
         try {
             dos.writeUTF(data);
         } catch (IOException ex) {
-            System.out.println("Lỗi gửi dữ liệu");
             Logger.getLogger(SocketHandler.class
                 .getName()).log(Level.SEVERE, null, ex);
         }
@@ -285,9 +284,6 @@ public class SocketHandler {
             // auto set info user
             ClientRun.homeView.setUsername(loginUser);
             ClientRun.homeView.setUserScore(score);
-            
-            //set STATUS_USER: Login xong thì không cần check status nữa
-            ClientRun.homeView.setStatusCompetitor(status);
         }
     }
     
@@ -317,7 +313,7 @@ public class SocketHandler {
         if (status.equals("success")) {
             int userCount = Integer.parseInt(splitted[2]);
 
-        
+           
             Vector vheader = new Vector();
             vheader.add("User");
 
@@ -453,25 +449,21 @@ public class SocketHandler {
         // get status from data
         String[] splitted = received.split(";");
         String status = splitted[1];
-        
-        
-        String userHost = splitted[2];
-        String userInvited = splitted[3];
-        String roomId = splitted[4];
-        int result = JOptionPane.showConfirmDialog(ClientRun.homeView, userHost + " want to play game with you?", "Game?", JOptionPane.YES_NO_OPTION);
 
-        if (result == JOptionPane.YES_OPTION) {
-            ClientRun.openScene(ClientRun.SceneName.GAMEVIEW);
-            ClientRun.gameView.setInfoPlayer(userHost);
-            roomIdPresent = roomId;
-            ClientRun.gameView.setStateUserInvited();
-            sendData("ACCEPT_PLAY;" + userHost + ";" + userInvited + ";" + roomId);
-        } else if (result == JOptionPane.NO_OPTION) {
-            sendData("NOT_ACCEPT_PLAY;" + userHost + ";" + userInvited + ";" + roomId);
-        } else {
-            
+        if (status.equals("success")) {
+            String userHost = splitted[2];
+            String userInvited = splitted[3];
+            String roomId = splitted[4];
+            if (JOptionPane.showConfirmDialog(ClientRun.homeView, userHost + " want to play game with you?", "Game?", JOptionPane.YES_NO_OPTION)==JOptionPane.YES_NO_OPTION){
+                ClientRun.openScene(ClientRun.SceneName.GAMEVIEW);
+                ClientRun.gameView.setInfoPlayer(userHost);
+                roomIdPresent = roomId;
+                ClientRun.gameView.setStateUserInvited();
+                sendData("ACCEPT_PLAY;" + userHost + ";" + userInvited + ";" + roomId);
+            } else {
+                sendData("NOT_ACCEPT_PLAY;" + userHost + ";" + userInvited + ";" + roomId);
+            }
         }
-
     }
     
     private void onReceiveAcceptPlay(String received) {
@@ -522,21 +514,37 @@ public class SocketHandler {
         String[] splitted = received.split(";");
         String status = splitted[2];
         ClientRun.homeView.setStatusCompetitor(status);
-//        }
     }
     
     private void onReceiveStartGame(String received) {
-        //Xử Lý câu hỏi ở đây 
+        // get status from data
         String[] splitted = received.split(";");
         String status = splitted[1];
-        String answer1 = splitted[3];
-        String answer2 = splitted[4];
-        String answer3 = splitted[5];
 
         if (status.equals("success")) {
-            System.out.println("Bat dau choi");
-            ClientRun.gameView.setStartGame(150, Integer.parseInt(answer1), Integer.parseInt(answer2), Integer.parseInt(answer3));
+            String a1 = splitted[3];
+            String b1 = splitted[4];
+            String answer1a = splitted[5];
+            String answer1b = splitted[6];
+            String answer1c = splitted[7];
+            ClientRun.gameView.setQuestion1(a1, b1, answer1a, answer1b, answer1c);
             
+            String a2 = splitted[8];
+            String b2 = splitted[9];
+            String answer2a = splitted[10];
+            String answer2b = splitted[11];
+            String answer2c = splitted[12];
+            ClientRun.gameView.setQuestion2(a2, b2, answer2a, answer2b, answer2c);
+            
+            String a3 = splitted[13];
+            String b3 = splitted[14];
+            String answer3a = splitted[15];
+            String answer3b = splitted[16];
+            String answer3c = splitted[17];
+            ClientRun.gameView.setQuestion3(a3, b3, answer3a, answer3b, answer3c);
+            
+            
+            ClientRun.gameView.setStartGame(30);
         }
     }
     
@@ -544,11 +552,10 @@ public class SocketHandler {
         // get status from data
         String[] splitted = received.split(";");
         String status = splitted[1];
-        String scoreUser = splitted[2];
-        String result = splitted[3];
-        String user1 = splitted[4];
-        String user2 = splitted[5];
-        String roomId = splitted[6];
+        String result = splitted[2];
+        String user1 = splitted[3];
+        String user2 = splitted[4];
+        String roomId = splitted[5];
         
         if (status.equals("success")) {
             ClientRun.gameView.setWaitingRoom();

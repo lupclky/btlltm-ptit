@@ -49,14 +49,6 @@ public class HomeView extends javax.swing.JFrame {
     public void setUserScore(float score) {
         infoUserScore.setText("Score: " + score);
     }
-    
-    public void showDialogAcceptInvite(String userSelected){
-        switch (statusCompetitor) {
-            case "ONLINE" -> ClientRun.socketHandler.inviteToPlay(userSelected);
-            case "OFFLINE" -> JOptionPane.showMessageDialog(HomeView.this, "This user is offline." , "ERROR", JOptionPane.ERROR_MESSAGE);
-            case "INGAME" -> JOptionPane.showMessageDialog(HomeView.this, "This user is in game." , "ERROR", JOptionPane.ERROR_MESSAGE);
-        }
-    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -106,11 +98,11 @@ public class HomeView extends javax.swing.JFrame {
 
             },
             new String [] {
-                "User", "Score", "Status"
+                "User"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Float.class, java.lang.String.class
+                java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -221,8 +213,14 @@ public class HomeView extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(HomeView.this, "You haven't chosen anyone yet! Please select one user." , "ERROR", JOptionPane.ERROR_MESSAGE);
         } else {
             String userSelected = String.valueOf(tblUser.getValueAt(row, 0));
-            ClientRun.socketHandler.inviteToPlay(userSelected);
-
+            
+            // check user online/in game
+            ClientRun.socketHandler.checkStatusUser(userSelected);
+            switch (statusCompetitor) {
+                case "ONLINE" -> ClientRun.socketHandler.inviteToPlay(userSelected);
+                case "OFFLINE" -> JOptionPane.showMessageDialog(HomeView.this, "This user is offline." , "ERROR", JOptionPane.ERROR_MESSAGE);
+                case "INGAME" -> JOptionPane.showMessageDialog(HomeView.this, "This user is in game." , "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }//GEN-LAST:event_btnPlayActionPerformed
 
