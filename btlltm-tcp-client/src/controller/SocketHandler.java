@@ -10,6 +10,7 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import run.ClientRun;
 
 public class SocketHandler {
@@ -84,6 +85,12 @@ public class SocketHandler {
                         break;
                     case "INVITE_TO_CHAT":
                         onReceiveInviteToChat(received);
+                        break;
+                    case "RANK_LIST":
+                        onReceiveRankList(received);
+                        break;
+                    case "HISTORY_LIST":
+                        onReceiveHistoryList(received);
                         break;
                     case "GET_INFO_USER":
                         onReceiveGetInfoUser(received);
@@ -207,6 +214,14 @@ public class SocketHandler {
         sendData("CHAT_MESSAGE;" + loginUser + ";" + userInvited  + ";" + message);
     }
     
+    public void getRankList() {
+        sendData("RANK_LIST;" + loginUser);
+    }
+    
+    public void getHistoryList(){
+        sendData("HISTORY_LIST;" + loginUser);
+    }
+    
     // Play game
     public void inviteToPlay (String userInvited) {
         sendData("INVITE_TO_PLAY;" + loginUser + ";" + userInvited);
@@ -235,7 +250,7 @@ public class SocketHandler {
             // Handle calculate time
             String[] splitted = ClientRun.gameView.pbgTimer.getString().split(":");
             String countDownTime = splitted[1];
-            int time = 150 - Integer.parseInt(countDownTime);
+            int time = 90 - Integer.parseInt(countDownTime);
             
             String data = "" + scoreUser + 
                     ";" + time;
@@ -349,6 +364,62 @@ public class SocketHandler {
         } else {
             JOptionPane.showMessageDialog(ClientRun.loginView, "Have some error!", "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
+    }
+    
+    private void onReceiveRankList(String received){
+        String[] splitted = received.split(";");
+        String user = splitted[2];
+        String success = splitted[1];
+        ClientRun.openScene(ClientRun.SceneName.BXHVIEW);
+        DefaultTableModel dtm = ClientRun.bXHView.getTableRankModel();
+        
+        Vector<String> vheader = new Vector<>();
+        for (int i = 0; i < dtm.getColumnCount(); i++) {
+            vheader.add(dtm.getColumnName(i));
+            System.out.println("Cột đang xet: " + dtm.getColumnName(i));
+        }
+        Vector<Vector<Object>> vdata = new Vector<>();
+        
+        if(success.equals("success")){
+            for(int i = 3; i< splitted.length; i++){
+                String tmp = splitted[i];
+                String[] tmpSplitted = tmp.split(",");
+                Vector<Object> vrow = new Vector<>();
+                for(String j: tmpSplitted){
+                    vrow.add(j);
+                }
+                vdata.add(vrow);
+            }
+        }
+        ClientRun.bXHView.setTableRank(vdata, vheader);
+    }
+    
+    private void onReceiveHistoryList(String received){
+        String[] splitted = received.split(";");
+        String user = splitted[2];
+        String success = splitted[1];
+        ClientRun.openScene(ClientRun.SceneName.HISTORYVIEW);
+        DefaultTableModel dtm = ClientRun.historyView.getHistoryTableModel();
+        
+        Vector<String> vheader = new Vector<>();
+        for (int i = 0; i < dtm.getColumnCount(); i++) {
+            vheader.add(dtm.getColumnName(i));
+            System.out.println("Cột đang xet: " + dtm.getColumnName(i));
+        }
+        Vector<Vector<Object>> vdata = new Vector<>();
+        
+        if(success.equals("success")){
+            for(int i = 3; i< splitted.length; i++){
+                String tmp = splitted[i];
+                String[] tmpSplitted = tmp.split(",");
+                Vector<Object> vrow = new Vector<>();
+                for(String j: tmpSplitted){
+                    vrow.add(j);
+                }
+                vdata.add(vrow);
+            }
+        }
+        ClientRun.historyView.setHistoryTable(vdata, vheader);
     }
     
     private void onReceiveGetInfoUser(String received) {
@@ -496,6 +567,8 @@ public class SocketHandler {
 //        }
     }
     
+    
+    
     private void onReceiveAcceptPlay(String received) {
         // get status from data
         String[] splitted = received.split(";");
@@ -592,6 +665,7 @@ public class SocketHandler {
 
         if (status.equals("success")) {
             System.out.println("Bat dau choi");
+            // XỬ LÝ THÒI GIAN Ở ĐÂY
             ClientRun.gameView.setStartGame(150, Integer.parseInt(answer1), Integer.parseInt(answer2), Integer.parseInt(answer3));
             
         }
@@ -670,5 +744,7 @@ public class SocketHandler {
     public void setScore(float score) {
         this.score = score;
     }
+
+    
     
 }

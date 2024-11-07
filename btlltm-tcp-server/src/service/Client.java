@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 import run.ServerRun;
 import helper.Question;
 import java.sql.SQLException;
+import view.ServerView;
 
 /**
  *
@@ -45,16 +46,18 @@ public class Client implements Runnable {
 
     @Override
     public void run() {
-
+        
         String received;
+        
         boolean running = true;
 
         while (!ServerRun.isShutDown) {
             try {
                 // receive the request from client
                 received = dis.readUTF();
-
+                ServerRun.serverView.appendText("RECEIVED: " + received + "\n");
                 System.out.println(received);
+                
                 String type = received.split(";")[0];
                
                 switch (type) {
@@ -91,6 +94,12 @@ public class Client implements Runnable {
                         break;
                     case "CHAT_MESSAGE":
                         onReceiveChatMessage(received);
+                        break;
+                    case "RANK_LIST": 
+                        onReceiveRankList(received);
+                        break;
+                    case "HISTORY_LIST": 
+                        onReceiveHistoryList(received);
                         break;
                     // play
                     case "INVITE_TO_PLAY":
@@ -249,7 +258,27 @@ public class Client implements Runnable {
         // send result
         String msg = "ACCEPT_MESSAGE;" + "success;" + userHost + ";" + userInvited;
         ServerRun.clientManager.sendToAClient(userHost, msg);
-    }      
+    }
+    
+    private void onReceiveRankList(String received){
+        String[] splitted = received.split(";");
+        String userHost = splitted[1];
+        
+        String rankList = new UserController().getRankList();
+        
+        String msg = "RANK_LIST;" + "success;" + userHost + ";" + rankList;
+        ServerRun.clientManager.sendToAClient(userHost, msg);
+    }
+    
+    private void onReceiveHistoryList(String received){
+        String[] splitted = received.split(";");
+        String userHost = splitted[1];
+        
+        String historyList = new UserController().getHistoryList(userHost);
+        System.out.println("danhs ach da thi dau history: " + historyList);
+        String msg = "HISTORY_LIST;" + "success;" + userHost + ";" + historyList;
+        ServerRun.clientManager.sendToAClient(userHost, msg);
+    }
       
     private void onReceiveNotAcceptMessage(String received) {
         String[] splitted = received.split(";");
@@ -443,7 +472,8 @@ private void onReceiveSubmitResult(String received) throws SQLException {
             joinedRoom.setResultClient2(received);
         }
         
-        while (!joinedRoom.getTime().equals("00:00") && joinedRoom.getTime() != null) {
+//        while (!joinedRoom.getTime().equals("00:00") && joinedRoom.getTime() != null) {
+        while (joinedRoom.getResultClient1() == null || joinedRoom.getResultClient2() == null) {
 //            System.out.println(joinedRoom.getTime());
             try {
                 Thread.sleep(2000);

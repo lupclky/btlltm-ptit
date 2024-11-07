@@ -1,8 +1,10 @@
 package run;
 
 import controller.SocketHandler;
+import view.BXHView;
 import view.ConnectServer;
 import view.GameView;
+import view.HistoryView;
 import view.HomeView;
 import view.InfoPlayerView;
 import view.LoginView;
@@ -17,7 +19,9 @@ public class ClientRun {
         HOMEVIEW,
         INFOPLAYER,
         MESSAGEVIEW,
-        GAMEVIEW
+        GAMEVIEW,
+        BXHVIEW,
+        HISTORYVIEW
     }
 
     // scenes
@@ -28,6 +32,8 @@ public class ClientRun {
     public static GameView gameView;
     public static InfoPlayerView infoPlayerView;
     public static MessageView messageView;
+    public static BXHView bXHView;
+    public static HistoryView historyView;
 
     // controller 
     public static SocketHandler socketHandler;
@@ -46,6 +52,8 @@ public class ClientRun {
         infoPlayerView = new InfoPlayerView();
         messageView = new MessageView();
         gameView = new GameView();
+        bXHView = new BXHView();
+        historyView = new HistoryView();
     }
 
     public static void openScene(SceneName sceneName) {
@@ -79,6 +87,14 @@ public class ClientRun {
                     gameView = new GameView();
                     gameView.setVisible(true);
                     break;
+                case BXHVIEW:
+                    bXHView = new BXHView();
+                    bXHView.setVisible(true);
+                    break;
+                case HISTORYVIEW:
+                    historyView = new HistoryView();
+                    historyView.setVisible(true);
+                    break;
                 default:
                     break;
             }
@@ -109,6 +125,12 @@ public class ClientRun {
                 case GAMEVIEW:
                     gameView.dispose();
                     break;
+                case BXHVIEW:
+                    bXHView.dispose();
+                    break;
+                case HISTORYVIEW:
+                    historyView.dispose();
+                    break;
                 default:
                     break;
             }
@@ -123,6 +145,8 @@ public class ClientRun {
         infoPlayerView.dispose();
         messageView.dispose();
         gameView.dispose();
+        bXHView.dispose();
+        historyView.dispose();
     }
 
     public static void main(String[] args) {

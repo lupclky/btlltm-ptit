@@ -20,7 +20,7 @@ public class ServerRun {
     public static volatile RoomManager roomManager;
     public static boolean isShutDown = false;
     public static ServerSocket ss;
-
+    public static ServerView serverView;
     public ServerRun() {
 
         try {
@@ -69,12 +69,26 @@ public class ServerRun {
             Logger.getLogger(ServerRun.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
 
     public static void main(String[] args) {
-        ServerView serverView = new ServerView();
+        serverView = new ServerView();
         serverView.setVisible(true);
         serverView.setLocationRelativeTo(null);
+        serverView.appendText("\n");
         
         new ServerRun();
+    }
+    
+    public static void shutdownServer() {
+        try {
+            isShutDown = true; // Cập nhật trạng thái để kết thúc vòng lặp while
+            if (ss != null && !ss.isClosed()) {
+                ss.close(); // Đóng ServerSocket
+                System.out.println("Server đã được tắt.");
+            }
+        } catch (IOException ex) {
+            System.out.println("Lỗi khi đóng server: " + ex.getMessage());
+        }
     }
 }

@@ -33,6 +33,12 @@ public class UserController {
     private final String UPDATE_USER = "UPDATE users SET score = ?, win = ?, draw = ?, lose = ?, avgCompetitor = ?, avgTime = ? WHERE username=?";
     
     private final String UPDATE_GAME = "INSERT INTO games (host, guest, scoreHost, scoreGuest, status, timePlay) VALUES ( ?, ?, ?, ?, ?, ?);"; // cập nhật vào bảng games
+
+    private final String GET_RANK_LIST = "SELECT username, score, win, draw, lose from btlltm.users ORDER  BY score DESC, win DESC, draw DESC, lose DESC;";
+
+    private final String GET_HISTORY_LIST = "SELECT guest, scoreHost, scoreGuest, status, timePlay from btlltm.games WHERE host = ?";
+
+
 //  Instance
     private final Connection con;
     
@@ -160,5 +166,51 @@ public class UserController {
             e.printStackTrace();
         }   
         return null;
+    }
+    
+    public String getRankList(){
+        String result = "";
+        try{
+            
+            PreparedStatement preparedStatement = con.prepareStatement(GET_RANK_LIST);
+            
+            ResultSet resultSet =  preparedStatement.executeQuery();
+            
+            while(resultSet.next()){
+                result = result + resultSet.getString("username") + ",";
+                result = result + resultSet.getFloat("score") + ",";
+                result = result + resultSet.getInt("win") + ",";
+                result = result + resultSet.getInt("draw") + ",";
+                result = result + resultSet.getInt("lose") + ";";
+            }
+            System.out.println("Get Ranking List: " + result);
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+        return result;
+    }
+    
+    public String getHistoryList(String host){
+        String result = "";
+        try{
+            
+            PreparedStatement preparedStatement = con.prepareStatement(GET_HISTORY_LIST);
+            preparedStatement.setString(1, host);
+            ResultSet resultSet =  preparedStatement.executeQuery();
+            
+            while(resultSet.next()){
+                result = result + resultSet.getString("guest") + ",";
+                result = result + resultSet.getInt("scoreHost") + ",";
+                result = result + resultSet.getInt("scoreGuest") + ",";
+                result = result + resultSet.getString("status") + ",";
+                result = result + resultSet.getDate("timePlay") + ";";
+            }
+            System.out.println("Get History List: " + result);
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+        return result;
     }
 }

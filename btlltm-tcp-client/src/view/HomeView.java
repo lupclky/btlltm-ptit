@@ -69,6 +69,8 @@ public class HomeView extends javax.swing.JFrame {
 
         btnPlay = new javax.swing.JButton();
         btnMessage = new javax.swing.JButton();
+        btnBXH = new javax.swing.JButton();
+        btnHistory = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         infoUsername = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -91,7 +93,7 @@ public class HomeView extends javax.swing.JFrame {
                 btnPlayActionPerformed(evt);
             }
         });
-        getContentPane().add(btnPlay, new org.netbeans.lib.awtextra.AbsoluteConstraints(36, 435, 71, 36));
+        getContentPane().add(btnPlay, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 410, 71, 36));
 
         btnMessage.setFont(new java.awt.Font("Comic Sans MS", 0, 16)); // NOI18N
         btnMessage.setText("Message");
@@ -100,12 +102,30 @@ public class HomeView extends javax.swing.JFrame {
                 btnMessageActionPerformed(evt);
             }
         });
-        getContentPane().add(btnMessage, new org.netbeans.lib.awtextra.AbsoluteConstraints(149, 435, -1, 36));
+        getContentPane().add(btnMessage, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 410, -1, 36));
+
+        btnBXH.setFont(new java.awt.Font("Comic Sans MS", 0, 16)); // NOI18N
+        btnBXH.setText("BXH");
+        btnBXH.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBXHActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnBXH, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 450, 70, 36));
+
+        btnHistory.setFont(new java.awt.Font("Comic Sans MS", 0, 16)); // NOI18N
+        btnHistory.setText("History");
+        btnHistory.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHistoryActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnHistory, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 450, -1, 36));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("User online");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 30, 210, 46));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 30, 210, 46));
 
         infoUsername.setBackground(new java.awt.Color(153, 255, 255));
         infoUsername.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -148,7 +168,7 @@ public class HomeView extends javax.swing.JFrame {
                 btnRefreshActionPerformed(evt);
             }
         });
-        getContentPane().add(btnRefresh, new org.netbeans.lib.awtextra.AbsoluteConstraints(479, 435, 100, 36));
+        getContentPane().add(btnRefresh, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 430, 100, 36));
 
         infoUserScore.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         infoUserScore.setForeground(new java.awt.Color(255, 255, 255));
@@ -165,7 +185,7 @@ public class HomeView extends javax.swing.JFrame {
                 btnLogoutActionPerformed(evt);
             }
         });
-        getContentPane().add(btnLogout, new org.netbeans.lib.awtextra.AbsoluteConstraints(597, 436, 88, 36));
+        getContentPane().add(btnLogout, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 430, 88, 36));
 
         btnGetInfo.setFont(new java.awt.Font("Comic Sans MS", 0, 16)); // NOI18N
         btnGetInfo.setText("Info");
@@ -174,7 +194,7 @@ public class HomeView extends javax.swing.JFrame {
                 btnGetInfoActionPerformed(evt);
             }
         });
-        getContentPane().add(btnGetInfo, new org.netbeans.lib.awtextra.AbsoluteConstraints(267, 435, -1, 36));
+        getContentPane().add(btnGetInfo, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 410, -1, 36));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/avatar.png"))); // NOI18N
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, 60, 60));
@@ -250,7 +270,7 @@ public class HomeView extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(HomeView.this, "You haven't chosen anyone yet! Please select one user." , "ERROR", JOptionPane.ERROR_MESSAGE);
         } else {
             String userSelected = String.valueOf(tblUser.getValueAt(row, 0));
-            System.out.println(userSelected);
+            System.out.println("Chọn user: " + userSelected);
             if (userSelected.equals(ClientRun.socketHandler.getLoginUser())) {
                 JOptionPane.showMessageDialog(HomeView.this, "You can not see yourself." , "ERROR", JOptionPane.ERROR_MESSAGE);
             } else {
@@ -266,6 +286,16 @@ public class HomeView extends javax.swing.JFrame {
             System.exit(0);
         } 
     }//GEN-LAST:event_btnExitActionPerformed
+
+    private void btnBXHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBXHActionPerformed
+        // TODO add your handling code here:
+        ClientRun.socketHandler.getRankList();
+    }//GEN-LAST:event_btnBXHActionPerformed
+
+    private void btnHistoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHistoryActionPerformed
+        // TODO add your handling code here:
+        ClientRun.socketHandler.getHistoryList();
+    }//GEN-LAST:event_btnHistoryActionPerformed
    
     /**
      * @param args the command line arguments
@@ -274,8 +304,10 @@ public class HomeView extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel background;
+    private javax.swing.JButton btnBXH;
     private javax.swing.JButton btnExit;
     private javax.swing.JButton btnGetInfo;
+    private javax.swing.JButton btnHistory;
     private javax.swing.JButton btnLogout;
     private javax.swing.JButton btnMessage;
     private javax.swing.JButton btnPlay;

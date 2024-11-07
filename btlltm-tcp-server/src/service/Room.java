@@ -44,24 +44,24 @@ public class Room {
     public void startGame() {
         gameStarted = true;
         
-        matchTimer = new CountDownTimer(27);
-        System.out.println("Thoi gian cho phan hoi sau khi choi0");
-        matchTimer.setTimerCallBack(
-            null,
-            (Callable) () -> {
-                time = "" + CustumDateTimeFormatter.secondsToMinutes(matchTimer.getCurrentTick());
-                System.out.print(time);
-                if (time.equals("00:00")) {
-//                    waitingClientTimer();
-                    if (resultClient1 == null && resultClient2 == null) {
-                        draw(0,0);
-                        broadcast("RESULT_GAME;success;DRAW;" + client1.getLoginUser() + ";" + client2.getLoginUser() + ";" + id);
-                    } 
-                }
-                return null;
-            },
-            1
-        );
+//        matchTimer = new CountDownTimer(27);
+//        System.out.println("Thoi gian cho phan hoi sau khi choi0");
+//        matchTimer.setTimerCallBack(
+//            null,
+//            (Callable) () -> {
+//                time = "" + CustumDateTimeFormatter.secondsToMinutes(matchTimer.getCurrentTick());
+//                System.out.print(time+"adele");
+//                if (time.equals("00:00")) {
+////                    waitingClientTimer();
+//                    if (resultClient1 == null && resultClient2 == null) {
+//                        draw(0,0);
+//                        broadcast("RESULT_GAME;success;DRAW;" + client1.getLoginUser() + ";" + client2.getLoginUser() + ";" + id);
+//                    } 
+//                }
+//                return null;
+//            },
+//            1
+//        );
     }
     
 //    public void waitingClientTimer() { // xử lý đoạn lỗi ở đây

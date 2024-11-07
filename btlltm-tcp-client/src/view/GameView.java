@@ -40,8 +40,11 @@ public class GameView extends javax.swing.JFrame {
         panel.setVisible(true);
         panelPlayAgain.setVisible(false);
         btnSubmit.setVisible(false);
+        btnNextRound.setVisible(false);  
         pbgTimer.setVisible(false); // bộ đếm thời gian
         jTextField1.setText("" + currentRound);
+        jLabelHienDiem.setVisible(false);
+        diem.setVisible(false);
 //        pbgTimer.setVisible(true);
         
         // close window event
@@ -63,7 +66,8 @@ public class GameView extends javax.swing.JFrame {
         pbgTimer.setVisible(false);
         btnStart.setVisible(false);
         lbWaiting.setText("waiting competitor...");
-        waitingReplyClient();
+        System.out.println("GameView: Doan nay phan Waiting room");
+//        waitingReplyClient();
     }
     
     public void showAskPlayAgain (String msg) {
@@ -99,29 +103,7 @@ public class GameView extends javax.swing.JFrame {
         lbWaiting.setText("Waiting result from server...");
     }
     
-    public void setStartGame (int matchTimeLimit, int answer1, int answer2, int answer3) {
-        answer = false;
-        diem.setText(Integer.toString(score));
-        redAnswer[1] = answer1;
-        redAnswer[2] = answer2;
-        redAnswer[3] = answer3;
-//        buttonGroup1.clearSelection();
-//        buttonGroup2.clearSelection();
-//        buttonGroup3.clearSelection();
-//        buttonGroup4.clearSelection();
-        
-        btnStart.setVisible(false);
-        lbWaiting.setVisible(false);
-        panel.setVisible(true);
-        btnSubmit.setVisible(true);
-        pbgTimer.setVisible(true);
-        marbel1.setVisible(true);  // Hide all balls initially
-        marbel2.setVisible(true);
-        marbel3.setVisible(true);
-        cup1.setVisible(true);
-        cup2.setVisible(true);
-        cup3.setVisible(true);
-        
+    public void resetTime(int matchTimeLimit){
         matchTimer = new CountDownTimer(matchTimeLimit);
         matchTimer.setTimerCallBack(
                 // end match callback
@@ -138,6 +120,36 @@ public class GameView extends javax.swing.JFrame {
                 // tick interval
                 1
         );
+    }
+    
+    public void setStartGame (int matchTimeLimit, int answer1, int answer2, int answer3) {
+        answer = false;
+        btnNextRound.setVisible(true);
+        diem.setText(Integer.toString(score));
+        redAnswer[1] = answer1;
+        redAnswer[2] = answer2;
+        redAnswer[3] = answer3;
+//        buttonGroup1.clearSelection();
+//        buttonGroup2.clearSelection();
+//        buttonGroup3.clearSelection();
+//        buttonGroup4.clearSelection();
+        jLabelHienDiem.setVisible(true);
+        diem.setVisible(true);
+        btnStart.setVisible(false);
+        lbWaiting.setVisible(false);
+        panel.setVisible(true);
+        btnSubmit.setVisible(false);
+        pbgTimer.setVisible(true);
+        marbel1.setVisible(true);  // Hide all balls initially
+        marbel2.setVisible(true);
+        marbel3.setVisible(true);
+        cup1.setVisible(true);
+        cup2.setVisible(true);
+        cup3.setVisible(true);
+        
+//        resetTime(matchTimeLimit);
+        resetTime(30);
+        
         currentRound = 1;
         if (redAnswer[currentRound] == 1) {
             marbel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/a red marble.png")));
@@ -154,20 +166,20 @@ public class GameView extends javax.swing.JFrame {
         }
     }
     
-    public void waitingReplyClient () {
-        waitingClientTimer = new CountDownTimer(25);
-        waitingClientTimer.setTimerCallBack(
-                null,
-                (Callable) () -> {
-                    lbWaitingTimer.setText("" + CustumDateTimeFormatter.secondsToMinutes(waitingClientTimer.getCurrentTick()));
-                    if (lbWaitingTimer.getText().equals("00:00") && answer == false) {
-                        hideAskPlayAgain();
-                    }
-                    return null;
-                },
-                1
-        );
-    }
+//    public void waitingReplyClient () {
+//        waitingClientTimer = new CountDownTimer(25);
+//        waitingClientTimer.setTimerCallBack(
+//                null,
+//                (Callable) () -> {
+//                    lbWaitingTimer.setText("" + CustumDateTimeFormatter.secondsToMinutes(waitingClientTimer.getCurrentTick()));
+//                    if (lbWaitingTimer.getText().equals("00:00") && answer == false) {
+//                        hideAskPlayAgain();
+//                    }
+//                    return null;
+//                },
+//                1
+//        );
+//    }
     
     public boolean getDone(){
         return this.done;
@@ -291,12 +303,12 @@ public class GameView extends javax.swing.JFrame {
                 btnLeaveGameActionPerformed(evt);
             }
         });
-        getContentPane().add(btnLeaveGame, new org.netbeans.lib.awtextra.AbsoluteConstraints(628, 27, 140, 34));
+        getContentPane().add(btnLeaveGame, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 30, 140, 34));
 
         pbgTimer.setBackground(new java.awt.Color(255, 255, 204));
         pbgTimer.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         pbgTimer.setStringPainted(true);
-        getContentPane().add(pbgTimer, new org.netbeans.lib.awtextra.AbsoluteConstraints(23, 79, 745, 27));
+        getContentPane().add(pbgTimer, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, 660, 27));
         pbgTimer.getAccessibleContext().setAccessibleName("");
 
         btnSubmit.setBackground(new java.awt.Color(255, 102, 102));
@@ -307,7 +319,7 @@ public class GameView extends javax.swing.JFrame {
                 btnSubmitActionPerformed(evt);
             }
         });
-        getContentPane().add(btnSubmit, new org.netbeans.lib.awtextra.AbsoluteConstraints(612, 439, 106, 29));
+        getContentPane().add(btnSubmit, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 400, 106, 29));
 
         btnStart.setBackground(new java.awt.Color(153, 0, 0));
         btnStart.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -318,11 +330,11 @@ public class GameView extends javax.swing.JFrame {
                 btnStartActionPerformed(evt);
             }
         });
-        getContentPane().add(btnStart, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 430, 98, -1));
+        getContentPane().add(btnStart, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 400, 98, -1));
 
         lbWaiting.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         lbWaiting.setText("Waiting host start game....");
-        getContentPane().add(lbWaiting, new org.netbeans.lib.awtextra.AbsoluteConstraints(133, 440, 336, -1));
+        getContentPane().add(lbWaiting, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 410, 336, -1));
 
         panelPlayAgain.setBorder(javax.swing.BorderFactory.createTitledBorder("Question?"));
 
@@ -365,7 +377,7 @@ public class GameView extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        getContentPane().add(panelPlayAgain, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 120, 656, -1));
+        getContentPane().add(panelPlayAgain, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 120, 656, -1));
 
         panel.setBackground(new java.awt.Color(255, 231, 255));
         panel.setForeground(new java.awt.Color(102, 102, 0));
@@ -380,10 +392,10 @@ public class GameView extends javax.swing.JFrame {
                 cup1MouseClicked(evt);
             }
         });
-        panel.add(cup1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 10, 150, 160));
+        panel.add(cup1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, 150, 160));
 
         marbel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/a red marble.png"))); // NOI18N
-        panel.add(marbel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 130, 70, 60));
+        panel.add(marbel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 130, 70, 60));
 
         cup2.setBackground(new java.awt.Color(255, 102, 51));
         cup2.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
@@ -394,10 +406,10 @@ public class GameView extends javax.swing.JFrame {
                 cup2MouseClicked(evt);
             }
         });
-        panel.add(cup2, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 10, 150, 160));
+        panel.add(cup2, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 10, 150, 160));
 
         marbel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/a red marble.png"))); // NOI18N
-        panel.add(marbel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 130, 70, 60));
+        panel.add(marbel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 130, 70, 60));
 
         cup3.setBackground(new java.awt.Color(255, 102, 51));
         cup3.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
@@ -408,10 +420,10 @@ public class GameView extends javax.swing.JFrame {
                 cup3MouseClicked(evt);
             }
         });
-        panel.add(cup3, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 10, 150, 160));
+        panel.add(cup3, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 10, 150, 160));
 
         marbel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/a red marble.png"))); // NOI18N
-        panel.add(marbel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 130, 70, 60));
+        panel.add(marbel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 130, 70, 60));
 
         getContentPane().add(panel, new org.netbeans.lib.awtextra.AbsoluteConstraints(29, 127, 690, -1));
 
@@ -428,7 +440,7 @@ public class GameView extends javax.swing.JFrame {
                 btnNextRoundActionPerformed(evt);
             }
         });
-        getContentPane().add(btnNextRound, new org.netbeans.lib.awtextra.AbsoluteConstraints(627, 361, -1, -1));
+        getContentPane().add(btnNextRound, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 340, -1, -1));
 
         jLabelHienDiem.setBackground(new java.awt.Color(255, 153, 153));
         jLabelHienDiem.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
@@ -445,11 +457,16 @@ public class GameView extends javax.swing.JFrame {
         getContentPane().add(diem, new org.netbeans.lib.awtextra.AbsoluteConstraints(177, 348, -1, 40));
 
         jTextField1.setBorder(new javax.swing.border.MatteBorder(null));
-        getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(534, 363, -1, -1));
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 350, -1, -1));
 
         background.setBackground(new java.awt.Color(102, 102, 0));
         background.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/light blue green.jpg"))); // NOI18N
-        getContentPane().add(background, new org.netbeans.lib.awtextra.AbsoluteConstraints(-3, -4, 810, 580));
+        getContentPane().add(background, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 760, 580));
 
         pack();
         setLocationRelativeTo(null);
@@ -472,6 +489,7 @@ public class GameView extends javax.swing.JFrame {
         System.out.println("Chơi xong rồi");
         done = true;
         ClientRun.socketHandler.submitResult(competitor);
+        // gửi dadataa dạng "SUBMIT_RESULT;" + loginUser + ";" + competitor + ";" + roomIdPresent + ";" + data
     }//GEN-LAST:event_btnSubmitActionPerformed
 
     private void btnOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOutActionPerformed
@@ -501,9 +519,9 @@ public class GameView extends javax.swing.JFrame {
             try {
                 // Di chuyển cốc lên trên 50px (thực hiện từ từ)
                 while (y > cup1.getY() - 50) {
-                    y -= 2; // Mỗi lần di chuyển lên 5px
+                    y -= 1; // Mỗi lần di chuyển lên 5px
                     cup1.setLocation(cup1.getX(), y); // Cập nhật vị trí
-                    Thread.sleep(20); // Tạm dừng 50ms giữa mỗi lần di chuyển
+                    Thread.sleep(10); // Tạm dừng 50ms giữa mỗi lần di chuyển
                 }
                 // Sau khi di chuyển xong, ẩn cái cốc đi
 //                cup1.setVisible(false);
@@ -532,9 +550,9 @@ public class GameView extends javax.swing.JFrame {
             try {
                 // Di chuyển cốc lên trên 50px (thực hiện từ từ)
                 while (y > cup2.getY() - 50) {
-                    y -= 2; // Mỗi lần di chuyển lên 5px
+                    y -= 1; // Mỗi lần di chuyển lên 5px
                     cup2.setLocation(cup2.getX(), y); // Cập nhật vị trí
-                    Thread.sleep(20); // Tạm dừng 50ms giữa mỗi lần di chuyển
+                    Thread.sleep(10); // Tạm dừng 50ms giữa mỗi lần di chuyển
                 }
                 // Sau khi di chuyển xong, ẩn cái cốc đi
 //                cup2.setVisible(false);
@@ -562,9 +580,9 @@ public class GameView extends javax.swing.JFrame {
             try {
                 // Di chuyển cốc lên trên 50px (thực hiện từ từ)
                 while (y > cup3.getY() - 50) {
-                    y -= 2; // Mỗi lần di chuyển lên 5px
+                    y -= 1; // Mỗi lần di chuyển lên 5px
                     cup3.setLocation(cup3.getX(), y); // Cập nhật vị trí
-                    Thread.sleep(20); // Tạm dừng 50ms giữa mỗi lần di chuyển
+                    Thread.sleep(10); // Tạm dừng 50ms giữa mỗi lần di chuyển
                 }
                 // Sau khi di chuyển xong, ẩn cái cốc đi
 //                cup3.setVisible(false);
@@ -576,6 +594,9 @@ public class GameView extends javax.swing.JFrame {
 
     private void btnNextRoundActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextRoundActionPerformed
         // TODO add your handling code here:
+        
+        resetTime(30);
+        
         diem.setText(Integer.toString(score));
         jTextField1.setText("" + currentRound);
         System.out.println("currentRound" + currentRound);
@@ -586,6 +607,7 @@ public class GameView extends javax.swing.JFrame {
 //            currentRound = 1; // Reset lại vòng chơi
 //            score = 0; // Reset điểm số
             done = true;
+            btnSubmit.setVisible(true);
             btnNextRound.setEnabled(false);
             btnNextRound.setVisible(false);
             return;
@@ -600,9 +622,9 @@ public class GameView extends javax.swing.JFrame {
         marbel1.setVisible(true);  // Hide all balls initially
         marbel2.setVisible(true);
         marbel3.setVisible(true);
-        cup1.setLocation(60, 10);
-        cup2.setLocation(270, 10);
-        cup3.setLocation(510, 10);
+        cup1.setLocation(40, 10);
+        cup2.setLocation(250, 10);
+        cup3.setLocation(470, 10);
         if (redAnswer[currentRound] == 1) {
             marbel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/a red marble.png")));
             marbel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/a black marbel.png")));
@@ -634,6 +656,10 @@ public class GameView extends javax.swing.JFrame {
         // TODO add your handling code here:
         diem.setText(Integer.toString(score));
     }//GEN-LAST:event_diemActionPerformed
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
 
     /**
      * @param args the command line arguments

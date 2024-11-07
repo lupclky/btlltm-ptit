@@ -49,9 +49,9 @@ public class ConnectServer extends javax.swing.JFrame {
         setForeground(new java.awt.Color(153, 255, 0));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setText("CONNECT TO SERVER");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 30, 240, 34));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 30, 280, 34));
 
         txIP.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txIP.setText("127.0.0.1");
@@ -79,17 +79,19 @@ public class ConnectServer extends javax.swing.JFrame {
         });
         getContentPane().add(txPort, new org.netbeans.lib.awtextra.AbsoluteConstraints(106, 153, 240, 37));
 
-        btnConnect.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnConnect.setBackground(new java.awt.Color(153, 0, 0));
+        btnConnect.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        btnConnect.setForeground(new java.awt.Color(255, 255, 255));
         btnConnect.setText("CONNECT");
         btnConnect.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnConnectActionPerformed(evt);
             }
         });
-        getContentPane().add(btnConnect, new org.netbeans.lib.awtextra.AbsoluteConstraints(122, 225, 174, 48));
+        getContentPane().add(btnConnect, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 230, 120, 30));
 
         background.setBackground(new java.awt.Color(255, 204, 204));
-        background.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/Red Background.png"))); // NOI18N
+        background.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/light-red-background 1 (1).jpg"))); // NOI18N
         getContentPane().add(background, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 400, 300));
 
         pack();
