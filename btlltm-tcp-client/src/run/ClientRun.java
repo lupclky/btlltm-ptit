@@ -10,6 +10,7 @@ import view.InfoPlayerView;
 import view.LoginView;
 import view.MessageView;
 import view.RegisterView;
+import view.ResultView;
 
 public class ClientRun {
     public enum SceneName {
@@ -21,7 +22,8 @@ public class ClientRun {
         MESSAGEVIEW,
         GAMEVIEW,
         BXHVIEW,
-        HISTORYVIEW
+        HISTORYVIEW,
+        RESULTVIEW
     }
 
     // scenes
@@ -34,6 +36,8 @@ public class ClientRun {
     public static MessageView messageView;
     public static BXHView bXHView;
     public static HistoryView historyView;
+    public static ResultView resultView;
+            
 
     // controller 
     public static SocketHandler socketHandler;
@@ -54,6 +58,7 @@ public class ClientRun {
         gameView = new GameView();
         bXHView = new BXHView();
         historyView = new HistoryView();
+        resultView = new ResultView();
     }
 
     public static void openScene(SceneName sceneName) {
@@ -95,6 +100,10 @@ public class ClientRun {
                     historyView = new HistoryView();
                     historyView.setVisible(true);
                     break;
+                case RESULTVIEW:
+                    resultView = new ResultView();
+                    resultView.setVisible(true);
+                    break;
                 default:
                     break;
             }
@@ -131,6 +140,9 @@ public class ClientRun {
                 case HISTORYVIEW:
                     historyView.dispose();
                     break;
+                case RESULTVIEW:
+                    resultView.dispose();
+                    break;
                 default:
                     break;
             }
@@ -147,6 +159,7 @@ public class ClientRun {
         gameView.dispose();
         bXHView.dispose();
         historyView.dispose();
+        resultView.dispose();
     }
 
     public static void main(String[] args) {

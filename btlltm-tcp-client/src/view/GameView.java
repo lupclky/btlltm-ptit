@@ -103,7 +103,7 @@ public class GameView extends javax.swing.JFrame {
         lbWaiting.setText("Waiting result from server...");
     }
     
-    public void resetTime(int matchTimeLimit){
+    public void resetTime(int matchTimeLimit){ // XỬ LÝ THỜI GIAN QUÁ HẠN Ở ĐÂY
         matchTimer = new CountDownTimer(matchTimeLimit);
         matchTimer.setTimerCallBack(
                 // end match callback
@@ -113,7 +113,17 @@ public class GameView extends javax.swing.JFrame {
                     pbgTimer.setValue(100 * matchTimer.getCurrentTick() / matchTimer.getTimeLimit());
                     pbgTimer.setString("" + CustumDateTimeFormatter.secondsToMinutes(matchTimer.getCurrentTick()));
                     if (pbgTimer.getString().equals("00:00")) {
-                        afterSubmit();
+                        if(currentRound > 3){
+                            btnSubmitActionPerformed(null);
+                            afterSubmit();
+                        }
+                        else{
+                            System.out.println("Hết một round");
+//                          currentRound++;
+                            currentRound++;
+                            System.out.println("currentRound" + currentRound);
+                            btnNextRoundActionPerformed(null);
+                        }
                     }
                     return null;
                 },
@@ -146,23 +156,24 @@ public class GameView extends javax.swing.JFrame {
         cup1.setVisible(true);
         cup2.setVisible(true);
         cup3.setVisible(true);
+        lblRound.setText("ROUND 1");
         
 //        resetTime(matchTimeLimit);
         resetTime(30);
         
         currentRound = 1;
         if (redAnswer[currentRound] == 1) {
-            marbel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/a red marble.png")));
-            marbel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/a black marbel.png")));
-            marbel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/a black marbel.png")));
+            marbel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/red marbel.jpg")));
+            marbel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/black marbel.jpg")));
+            marbel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/black marbel.jpg")));
         } else if (redAnswer[currentRound] == 2) {
-            marbel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/a black marbel.png")));
-            marbel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/a red marble.png")));
-            marbel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/a black marbel.png")));
+            marbel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/black marbel.jpg")));
+            marbel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/red marbel.jpg")));
+            marbel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/black marbel.jpg")));
         } else if (redAnswer[currentRound] == 3) {
-            marbel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/a black marbel.png")));
-            marbel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/a black marbel.png")));
-            marbel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/a red marble.png")));
+            marbel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/black marbel.jpg")));
+            marbel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/black marbel.jpg")));
+            marbel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/red marbel.jpg")));
         }
     }
     
@@ -271,8 +282,9 @@ public class GameView extends javax.swing.JFrame {
         marbel3 = new javax.swing.JLabel();
         btnNextRound = new javax.swing.JButton();
         jLabelHienDiem = new javax.swing.JLabel();
-        diem = new javax.swing.JTextField();
         jTextField1 = new javax.swing.JTextField();
+        lblRound = new javax.swing.JLabel();
+        diem = new javax.swing.JLabel();
         background = new javax.swing.JLabel();
 
         javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
@@ -336,6 +348,7 @@ public class GameView extends javax.swing.JFrame {
         lbWaiting.setText("Waiting host start game....");
         getContentPane().add(lbWaiting, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 410, 336, -1));
 
+        panelPlayAgain.setBackground(new java.awt.Color(255, 252, 173));
         panelPlayAgain.setBorder(javax.swing.BorderFactory.createTitledBorder("Question?"));
 
         lbWaitingTimer.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -350,7 +363,7 @@ public class GameView extends javax.swing.JFrame {
             }
         });
 
-        lbResult.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lbResult.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         lbResult.setText("Do you want to play again? ");
 
         javax.swing.GroupLayout panelPlayAgainLayout = new javax.swing.GroupLayout(panelPlayAgain);
@@ -386,44 +399,44 @@ public class GameView extends javax.swing.JFrame {
         cup1.setBackground(new java.awt.Color(255, 102, 51));
         cup1.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
         cup1.setForeground(new java.awt.Color(102, 102, 255));
-        cup1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/a yellow cup (1).png"))); // NOI18N
+        cup1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/grey cup.jpg"))); // NOI18N
         cup1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 cup1MouseClicked(evt);
             }
         });
-        panel.add(cup1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, 150, 160));
+        panel.add(cup1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 150, 160));
 
-        marbel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/a red marble.png"))); // NOI18N
-        panel.add(marbel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 130, 70, 60));
+        marbel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/red marbel.jpg"))); // NOI18N
+        panel.add(marbel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 110, 70, 60));
 
         cup2.setBackground(new java.awt.Color(255, 102, 51));
         cup2.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
         cup2.setForeground(new java.awt.Color(102, 102, 255));
-        cup2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/a yellow cup (1).png"))); // NOI18N
+        cup2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/grey cup.jpg"))); // NOI18N
         cup2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 cup2MouseClicked(evt);
             }
         });
-        panel.add(cup2, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 10, 150, 160));
+        panel.add(cup2, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 10, 150, 160));
 
-        marbel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/a red marble.png"))); // NOI18N
-        panel.add(marbel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 130, 70, 60));
+        marbel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/red marbel.jpg"))); // NOI18N
+        panel.add(marbel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 110, 70, 60));
 
         cup3.setBackground(new java.awt.Color(255, 102, 51));
         cup3.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
         cup3.setForeground(new java.awt.Color(102, 102, 255));
-        cup3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/a yellow cup (1).png"))); // NOI18N
+        cup3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/grey cup.jpg"))); // NOI18N
         cup3.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 cup3MouseClicked(evt);
             }
         });
-        panel.add(cup3, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 10, 150, 160));
+        panel.add(cup3, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 10, 150, 160));
 
-        marbel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/a red marble.png"))); // NOI18N
-        panel.add(marbel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 130, 70, 60));
+        marbel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/red marbel.jpg"))); // NOI18N
+        panel.add(marbel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 110, 70, 60));
 
         getContentPane().add(panel, new org.netbeans.lib.awtextra.AbsoluteConstraints(29, 127, 690, -1));
 
@@ -445,16 +458,7 @@ public class GameView extends javax.swing.JFrame {
         jLabelHienDiem.setBackground(new java.awt.Color(255, 153, 153));
         jLabelHienDiem.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
         jLabelHienDiem.setText("Score");
-        getContentPane().add(jLabelHienDiem, new org.netbeans.lib.awtextra.AbsoluteConstraints(92, 358, 56, -1));
-
-        diem.setFont(new java.awt.Font("sansserif", 1, 24)); // NOI18N
-        diem.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        diem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                diemActionPerformed(evt);
-            }
-        });
-        getContentPane().add(diem, new org.netbeans.lib.awtextra.AbsoluteConstraints(177, 348, -1, 40));
+        getContentPane().add(jLabelHienDiem, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 350, 56, -1));
 
         jTextField1.setBorder(new javax.swing.border.MatteBorder(null));
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
@@ -464,8 +468,18 @@ public class GameView extends javax.swing.JFrame {
         });
         getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 350, -1, -1));
 
+        lblRound.setFont(new java.awt.Font("Segoe UI", 1, 22)); // NOI18N
+        lblRound.setForeground(new java.awt.Color(0, 102, 0));
+        lblRound.setText("ROUND ");
+        getContentPane().add(lblRound, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 40, -1, -1));
+
+        diem.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
+        diem.setForeground(new java.awt.Color(102, 0, 0));
+        diem.setText("jLabel1");
+        getContentPane().add(diem, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 350, -1, -1));
+
         background.setBackground(new java.awt.Color(102, 102, 0));
-        background.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/light blue green.jpg"))); // NOI18N
+        background.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/light yellow background.png"))); // NOI18N
         getContentPane().add(background, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 760, 580));
 
         pack();
@@ -521,7 +535,7 @@ public class GameView extends javax.swing.JFrame {
                 while (y > cup1.getY() - 50) {
                     y -= 1; // Mỗi lần di chuyển lên 5px
                     cup1.setLocation(cup1.getX(), y); // Cập nhật vị trí
-                    Thread.sleep(10); // Tạm dừng 50ms giữa mỗi lần di chuyển
+                    Thread.sleep(5); // Tạm dừng 50ms giữa mỗi lần di chuyển
                 }
                 // Sau khi di chuyển xong, ẩn cái cốc đi
 //                cup1.setVisible(false);
@@ -552,7 +566,7 @@ public class GameView extends javax.swing.JFrame {
                 while (y > cup2.getY() - 50) {
                     y -= 1; // Mỗi lần di chuyển lên 5px
                     cup2.setLocation(cup2.getX(), y); // Cập nhật vị trí
-                    Thread.sleep(10); // Tạm dừng 50ms giữa mỗi lần di chuyển
+                    Thread.sleep(5); // Tạm dừng 50ms giữa mỗi lần di chuyển
                 }
                 // Sau khi di chuyển xong, ẩn cái cốc đi
 //                cup2.setVisible(false);
@@ -582,7 +596,7 @@ public class GameView extends javax.swing.JFrame {
                 while (y > cup3.getY() - 50) {
                     y -= 1; // Mỗi lần di chuyển lên 5px
                     cup3.setLocation(cup3.getX(), y); // Cập nhật vị trí
-                    Thread.sleep(10); // Tạm dừng 50ms giữa mỗi lần di chuyển
+                    Thread.sleep(5); // Tạm dừng 50ms giữa mỗi lần di chuyển
                 }
                 // Sau khi di chuyển xong, ẩn cái cốc đi
 //                cup3.setVisible(false);
@@ -598,6 +612,7 @@ public class GameView extends javax.swing.JFrame {
         resetTime(30);
         
         diem.setText(Integer.toString(score));
+        lblRound.setText("ROUND " + currentRound);
         jTextField1.setText("" + currentRound);
         System.out.println("currentRound" + currentRound);
         if (currentRound > 3) {
@@ -622,23 +637,23 @@ public class GameView extends javax.swing.JFrame {
         marbel1.setVisible(true);  // Hide all balls initially
         marbel2.setVisible(true);
         marbel3.setVisible(true);
-        cup1.setLocation(40, 10);
-        cup2.setLocation(250, 10);
-        cup3.setLocation(470, 10);
+        cup1.setLocation(30, 10);
+        cup2.setLocation(230, 10);
+        cup3.setLocation(440, 10);
         if (redAnswer[currentRound] == 1) {
-            marbel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/a red marble.png")));
-            marbel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/a black marbel.png")));
-            marbel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/a black marbel.png")));
+            marbel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/red marbel.jpg")));
+            marbel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/black marbel.jpg")));
+            marbel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/black marbel.jpg")));
 
         } else if (redAnswer[currentRound] == 2) {
-            marbel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/a black marbel.png")));
-            marbel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/a red marble.png")));
-            marbel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/a black marbel.png")));
+            marbel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/black marbel.jpg")));
+            marbel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/red marbel.jpg")));
+            marbel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/black marbel.jpg")));
 
         } else if (redAnswer[currentRound] == 3) {
-            marbel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/a black marbel.png")));
-            marbel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/a black marbel.png")));
-            marbel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/a red marble.png")));
+            marbel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/black marbel.jpg")));
+            marbel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/black marbel.jpg")));
+            marbel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/red marbel.jpg")));
         }
 
         // Reset any other game-specific variables as needed
@@ -651,11 +666,6 @@ public class GameView extends javax.swing.JFrame {
         // TODO add your handling code here:
         btnNextRoundActionPerformed(null); 
     }//GEN-LAST:event_btnNextRoundMouseClicked
-
-    private void diemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_diemActionPerformed
-        // TODO add your handling code here:
-        diem.setText(Integer.toString(score));
-    }//GEN-LAST:event_diemActionPerformed
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
@@ -720,7 +730,7 @@ public class GameView extends javax.swing.JFrame {
     private javax.swing.JLabel cup1;
     private javax.swing.JLabel cup2;
     private javax.swing.JLabel cup3;
-    private javax.swing.JTextField diem;
+    private javax.swing.JLabel diem;
     private javax.swing.JLabel infoPLayer;
     private javax.swing.JFrame jFrame1;
     private javax.swing.JLabel jLabelHienDiem;
@@ -728,6 +738,7 @@ public class GameView extends javax.swing.JFrame {
     private javax.swing.JLabel lbResult;
     private javax.swing.JLabel lbWaiting;
     private javax.swing.JLabel lbWaitingTimer;
+    private javax.swing.JLabel lblRound;
     private javax.swing.JLabel marbel1;
     private javax.swing.JLabel marbel2;
     private javax.swing.JLabel marbel3;

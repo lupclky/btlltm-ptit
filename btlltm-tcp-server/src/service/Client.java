@@ -456,7 +456,7 @@ private void onReceiveStartGame(String received) {
         joinedRoom.startGame(); // Bắt đầu game
         
         isPlaying = true;
-        startCountdown(); // Bắt đầu đếm ngược
+//        startCountdown(); // Bắt đầu đếm ngược
     }
  
     
@@ -483,7 +483,7 @@ private void onReceiveSubmitResult(String received) throws SQLException {
         } 
         
         String data = "RESULT_GAME;success;" + joinedRoom.handleResultClient() 
-                + ";" + joinedRoom.getClient1().getLoginUser() + ";" + joinedRoom.getClient2().getLoginUser() + ";" + joinedRoom.getId();
+                + ";" + joinedRoom.getClient1().getLoginUser() + ";" + joinedRoom.getScoreUser1() + ";" + joinedRoom.getClient2().getLoginUser() + ";" + joinedRoom.getScoreUser2() + ";" + joinedRoom.getId();
 //        System.out.println(data);
         joinedRoom.broadcast(data);
     }

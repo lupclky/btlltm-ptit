@@ -25,6 +25,8 @@ public class Room {
     // "SUBMIT_RESULT;" + loginUser + ";" + competitor + ";" + roomIdPresent + ";" + "" + scoreUser +  ";" + time;
     String resultClient1;
     String resultClient2;
+    int scoreUser1 = -1;
+    int scoreUser2 = -1;
     
     String playAgainC1;
     String playAgainC2;
@@ -104,9 +106,6 @@ public class Room {
     public String handleResultClient() throws SQLException {
         int timeClient1 = 0; //split[5]
         int timeClient2 = 0;
-        int scoreUser1 = -1;
-        int scoreUser2 = -1;
-        
 
         if(resultClient1 != null){
             String[] split = resultClient1.split(";");
@@ -400,4 +399,11 @@ public class Room {
         this.waitingTime = waitingTime;
     }
     
+    public int getScoreUser1(){
+        return scoreUser1;
+    }
+    
+    public int getScoreUser2(){
+        return scoreUser2;
+    }
 }

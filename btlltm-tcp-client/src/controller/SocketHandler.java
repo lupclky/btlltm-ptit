@@ -678,18 +678,26 @@ public class SocketHandler {
 //        String scoreUser = splitted[2];
         String result = splitted[2];
         String user1 = splitted[3];
-        String user2 = splitted[4];
-        String roomId = splitted[5];
+        String scoreUser1 = splitted[4];
+        String user2 = splitted[5];
+        String scoreUser2 = splitted[6];
+        String roomId = splitted[7];
         
         if (status.equals("success")) {
             ClientRun.gameView.setWaitingRoom();
             if (result.equals("DRAW")) {
                 ClientRun.gameView.showAskPlayAgain("The game is DRAW. ");
+                ClientRun.openScene(ClientRun.SceneName.RESULTVIEW);
+                ClientRun.resultView.showResult(user1, "DRAW GAME.", "It's a good game", scoreUser1, scoreUser2);
             } else if (result.equals(loginUser)) {
                 System.out.println("loginUsser + " + loginUser);
                 ClientRun.gameView.showAskPlayAgain("You WIN. Congratulation ");
+                ClientRun.openScene(ClientRun.SceneName.RESULTVIEW);
+                ClientRun.resultView.showResult(loginUser, "YOU WIN.", "Congratulation!!", scoreUser1, scoreUser2);
             } else {
                 ClientRun.gameView.showAskPlayAgain("You LOSE. Maybe next time ");
+                ClientRun.openScene(ClientRun.SceneName.RESULTVIEW);
+                ClientRun.resultView.showResult(loginUser, "YOU LOSE.", "Try next time.", scoreUser1, scoreUser2);
             }
         }
     }
