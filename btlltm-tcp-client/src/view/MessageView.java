@@ -70,31 +70,46 @@ public class MessageView extends javax.swing.JFrame {
         contentChat = new javax.swing.JTextArea();
         infoUserChat = new javax.swing.JLabel();
         btnLeaveChat = new javax.swing.JButton();
+        background = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        tfMessage.setBackground(new java.awt.Color(255, 224, 186));
         tfMessage.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 tfMessageKeyPressed(evt);
             }
         });
+        getContentPane().add(tfMessage, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 311, 311, 38));
 
+        btnSend.setBackground(new java.awt.Color(153, 0, 0));
+        btnSend.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnSend.setForeground(new java.awt.Color(255, 255, 255));
         btnSend.setText("Send");
         btnSend.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSendActionPerformed(evt);
             }
         });
+        getContentPane().add(btnSend, new org.netbeans.lib.awtextra.AbsoluteConstraints(335, 312, 112, 38));
 
         contentChat.setEditable(false);
+        contentChat.setBackground(new java.awt.Color(255, 235, 235));
         contentChat.setColumns(20);
+        contentChat.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
         contentChat.setRows(5);
         jScrollPane1.setViewportView(contentChat);
 
-        infoUserChat.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        infoUserChat.setText("Chat with:");
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 80, 441, 213));
 
-        btnLeaveChat.setBackground(new java.awt.Color(255, 102, 0));
+        infoUserChat.setFont(new java.awt.Font("Tahoma", 1, 22)); // NOI18N
+        infoUserChat.setForeground(new java.awt.Color(255, 255, 255));
+        infoUserChat.setText("Chat with:");
+        getContentPane().add(infoUserChat, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 26, 290, 36));
+
+        btnLeaveChat.setBackground(new java.awt.Color(153, 0, 0));
+        btnLeaveChat.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         btnLeaveChat.setForeground(new java.awt.Color(204, 255, 255));
         btnLeaveChat.setText("Leave chat");
         btnLeaveChat.addActionListener(new java.awt.event.ActionListener() {
@@ -102,41 +117,10 @@ public class MessageView extends javax.swing.JFrame {
                 btnLeaveChatActionPerformed(evt);
             }
         });
+        getContentPane().add(btnLeaveChat, new org.netbeans.lib.awtextra.AbsoluteConstraints(327, 26, 120, 36));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(infoUserChat, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnLeaveChat, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 441, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(tfMessage)
-                            .addGap(18, 18, 18)
-                            .addComponent(btnSend, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(21, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(26, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(infoUserChat, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
-                    .addComponent(btnLeaveChat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnSend, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tfMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(28, 28, 28))
-        );
+        background.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/Emerald Sky (1).jpg"))); // NOI18N
+        getContentPane().add(background, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, -4, 480, 380));
 
         pack();
         setLocationRelativeTo(null);
@@ -193,6 +177,7 @@ public class MessageView extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel background;
     private javax.swing.JButton btnLeaveChat;
     private javax.swing.JButton btnSend;
     private javax.swing.JTextArea contentChat;

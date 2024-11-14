@@ -8,7 +8,7 @@
  * Created: Oct 18, 2021
  */
 
-CREATE TABLE `db`.`users` (
+CREATE TABLE `btlltm`.`users` (
   `userId` INT NOT NULL AUTO_INCREMENT,
   `username` VARCHAR(45) NOT NULL,
   `password` VARCHAR(45) NOT NULL,
@@ -19,3 +19,13 @@ CREATE TABLE `db`.`users` (
   `avgCompetitor` FLOAT NOT NULL,
   `avgTime` FLOAT NOT NULL,
   PRIMARY KEY (`userId`));
+
+CREATE TABLE `btlltm`.`games`(
+    `gameId` INT NOT NULL AUTO_INCREMENT,
+    `user1` VARCHAR(45) NOT NULL,
+    `user2` VARCHAR(45) NOT NULL,
+    `score1` INT NOT NULL,
+    `score2` INT NOT NULL,
+    `roomId` VARCHAR(45) NOT NULL,
+    PRIMARY KEY (`gameId`)
+);
