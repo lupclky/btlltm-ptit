@@ -697,7 +697,7 @@ public class SocketHandler {
             } else {
                 ClientRun.gameView.showAskPlayAgain("You LOSE. Maybe next time ");
                 ClientRun.openScene(ClientRun.SceneName.RESULTVIEW);
-                ClientRun.resultView.showResult(loginUser, "YOU LOSE.", "Try next time.", scoreUser1, scoreUser2);
+                ClientRun.resultView.showResult(user2, "YOU LOSE.", "Try next time.", scoreUser2, scoreUser1);
             }
         }
     }

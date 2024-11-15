@@ -43,8 +43,9 @@ public class LoginView extends javax.swing.JFrame {
         tfUsername.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         getContentPane().add(tfUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(165, 129, 336, 31));
 
-        btnLogin.setBackground(new java.awt.Color(255, 153, 153));
-        btnLogin.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        btnLogin.setBackground(new java.awt.Color(153, 0, 0));
+        btnLogin.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
+        btnLogin.setForeground(new java.awt.Color(255, 255, 255));
         btnLogin.setText("Login");
         btnLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -54,12 +55,11 @@ public class LoginView extends javax.swing.JFrame {
         getContentPane().add(btnLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(217, 248, 145, 35));
 
         jLabel1.setBackground(new java.awt.Color(153, 102, 255));
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 48)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 48)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Login");
-        jLabel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jLabel1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(225, 25, 120, 71));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 20, 160, 71));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -79,13 +79,16 @@ public class LoginView extends javax.swing.JFrame {
         jLabel3.setText("Password");
         getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(45, 187, 90, 30));
 
+        btnChangeRegister.setBackground(new java.awt.Color(153, 0, 0));
+        btnChangeRegister.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
+        btnChangeRegister.setForeground(new java.awt.Color(255, 255, 255));
         btnChangeRegister.setText("Register");
         btnChangeRegister.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnChangeRegisterActionPerformed(evt);
             }
         });
-        getContentPane().add(btnChangeRegister, new org.netbeans.lib.awtextra.AbsoluteConstraints(242, 301, 89, -1));
+        getContentPane().add(btnChangeRegister, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 300, 100, -1));
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/Emerald Sky (1).jpg"))); // NOI18N
         getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 550, 350));

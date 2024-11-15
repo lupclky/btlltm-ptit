@@ -47,14 +47,16 @@ public class RegisterView extends javax.swing.JFrame {
                 tfPasswordActionPerformed(evt);
             }
         });
-        getContentPane().add(tfPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(176, 144, 336, 30));
+        getContentPane().add(tfPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(176, 144, 280, 30));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Confirm password");
         getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 190, 160, 30));
 
+        btnChangeLogin.setBackground(new java.awt.Color(153, 0, 0));
         btnChangeLogin.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnChangeLogin.setForeground(new java.awt.Color(255, 255, 255));
         btnChangeLogin.setText("Login");
         btnChangeLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -62,10 +64,10 @@ public class RegisterView extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnChangeLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(253, 296, 89, -1));
-        getContentPane().add(tfUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(176, 95, 336, 31));
+        getContentPane().add(tfUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(176, 95, 280, 31));
 
         btnRegister.setBackground(new java.awt.Color(153, 0, 0));
-        btnRegister.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        btnRegister.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
         btnRegister.setForeground(new java.awt.Color(255, 255, 255));
         btnRegister.setText("Register");
         btnRegister.addActionListener(new java.awt.event.ActionListener() {
@@ -75,7 +77,7 @@ public class RegisterView extends javax.swing.JFrame {
         });
         getContentPane().add(btnRegister, new org.netbeans.lib.awtextra.AbsoluteConstraints(228, 243, 145, 35));
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 48)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 40)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Register");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(214, 6, -1, 71));
@@ -95,7 +97,7 @@ public class RegisterView extends javax.swing.JFrame {
                 tfConfirmPasswordActionPerformed(evt);
             }
         });
-        getContentPane().add(tfConfirmPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(176, 192, 336, 30));
+        getContentPane().add(tfConfirmPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(176, 192, 280, 30));
 
         background.setForeground(new java.awt.Color(255, 255, 255));
         background.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/Emerald Sky (1).jpg"))); // NOI18N

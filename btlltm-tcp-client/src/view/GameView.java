@@ -265,10 +265,10 @@ public class GameView extends javax.swing.JFrame {
         jFrame1 = new javax.swing.JFrame();
         infoPLayer = new javax.swing.JLabel();
         btnLeaveGame = new javax.swing.JButton();
+        lbWaiting = new javax.swing.JLabel();
         pbgTimer = new javax.swing.JProgressBar();
         btnSubmit = new javax.swing.JButton();
         btnStart = new javax.swing.JButton();
-        lbWaiting = new javax.swing.JLabel();
         panelPlayAgain = new javax.swing.JPanel();
         lbWaitingTimer = new javax.swing.JLabel();
         btnOut = new javax.swing.JButton();
@@ -301,10 +301,10 @@ public class GameView extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        infoPLayer.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        infoPLayer.setText("Play game with:");
+        infoPLayer.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        infoPLayer.setText("Play with:");
         infoPLayer.setBorder(new javax.swing.border.MatteBorder(null));
-        getContentPane().add(infoPLayer, new org.netbeans.lib.awtextra.AbsoluteConstraints(23, 24, 229, 34));
+        getContentPane().add(infoPLayer, new org.netbeans.lib.awtextra.AbsoluteConstraints(23, 24, 260, 34));
 
         btnLeaveGame.setBackground(new java.awt.Color(153, 0, 0));
         btnLeaveGame.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -317,21 +317,26 @@ public class GameView extends javax.swing.JFrame {
         });
         getContentPane().add(btnLeaveGame, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 30, 140, 34));
 
+        lbWaiting.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        lbWaiting.setText("Waiting host start game....");
+        getContentPane().add(lbWaiting, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 310, 380, -1));
+
         pbgTimer.setBackground(new java.awt.Color(255, 255, 204));
         pbgTimer.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         pbgTimer.setStringPainted(true);
         getContentPane().add(pbgTimer, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, 660, 27));
         pbgTimer.getAccessibleContext().setAccessibleName("");
 
-        btnSubmit.setBackground(new java.awt.Color(255, 102, 102));
+        btnSubmit.setBackground(new java.awt.Color(153, 0, 0));
         btnSubmit.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnSubmit.setForeground(new java.awt.Color(255, 255, 255));
         btnSubmit.setText("Submit");
         btnSubmit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSubmitActionPerformed(evt);
             }
         });
-        getContentPane().add(btnSubmit, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 400, 106, 29));
+        getContentPane().add(btnSubmit, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 350, 106, 35));
 
         btnStart.setBackground(new java.awt.Color(153, 0, 0));
         btnStart.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -342,11 +347,7 @@ public class GameView extends javax.swing.JFrame {
                 btnStartActionPerformed(evt);
             }
         });
-        getContentPane().add(btnStart, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 400, 98, -1));
-
-        lbWaiting.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        lbWaiting.setText("Waiting host start game....");
-        getContentPane().add(lbWaiting, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 410, 336, -1));
+        getContentPane().add(btnStart, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 350, 98, 35));
 
         panelPlayAgain.setBackground(new java.awt.Color(255, 252, 173));
         panelPlayAgain.setBorder(javax.swing.BorderFactory.createTitledBorder("Question?"));
@@ -354,8 +355,9 @@ public class GameView extends javax.swing.JFrame {
         lbWaitingTimer.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         lbWaitingTimer.setText("00:00");
 
-        btnOut.setBackground(new java.awt.Color(255, 153, 153));
-        btnOut.setFont(new java.awt.Font("sansserif", 1, 16)); // NOI18N
+        btnOut.setBackground(new java.awt.Color(153, 0, 0));
+        btnOut.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        btnOut.setForeground(new java.awt.Color(255, 255, 255));
         btnOut.setText("Out");
         btnOut.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -375,8 +377,8 @@ public class GameView extends javax.swing.JFrame {
                 .addComponent(lbResult, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lbWaitingTimer, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(105, 105, 105)
-                .addComponent(btnOut, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(94, 94, 94)
+                .addComponent(btnOut)
                 .addGap(83, 83, 83))
         );
         panelPlayAgainLayout.setVerticalGroup(
@@ -440,8 +442,9 @@ public class GameView extends javax.swing.JFrame {
 
         getContentPane().add(panel, new org.netbeans.lib.awtextra.AbsoluteConstraints(29, 127, 690, -1));
 
-        btnNextRound.setBackground(new java.awt.Color(255, 102, 102));
+        btnNextRound.setBackground(new java.awt.Color(153, 0, 0));
         btnNextRound.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
+        btnNextRound.setForeground(new java.awt.Color(255, 255, 255));
         btnNextRound.setText("Next round");
         btnNextRound.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -453,12 +456,12 @@ public class GameView extends javax.swing.JFrame {
                 btnNextRoundActionPerformed(evt);
             }
         });
-        getContentPane().add(btnNextRound, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 340, -1, -1));
+        getContentPane().add(btnNextRound, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 350, -1, 35));
 
         jLabelHienDiem.setBackground(new java.awt.Color(255, 153, 153));
         jLabelHienDiem.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
         jLabelHienDiem.setText("Score");
-        getContentPane().add(jLabelHienDiem, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 350, 56, -1));
+        getContentPane().add(jLabelHienDiem, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 340, 56, -1));
 
         jTextField1.setBorder(new javax.swing.border.MatteBorder(null));
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
@@ -466,17 +469,17 @@ public class GameView extends javax.swing.JFrame {
                 jTextField1ActionPerformed(evt);
             }
         });
-        getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 350, -1, -1));
+        getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 460, -1, -1));
 
-        lblRound.setFont(new java.awt.Font("Segoe UI", 1, 22)); // NOI18N
+        lblRound.setFont(new java.awt.Font("Segoe UI", 1, 26)); // NOI18N
         lblRound.setForeground(new java.awt.Color(0, 102, 0));
-        lblRound.setText("ROUND ");
-        getContentPane().add(lblRound, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 40, -1, -1));
+        lblRound.setText("ROUND 1");
+        getContentPane().add(lblRound, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 40, -1, -1));
 
-        diem.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
+        diem.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         diem.setForeground(new java.awt.Color(102, 0, 0));
         diem.setText("jLabel1");
-        getContentPane().add(diem, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 350, -1, -1));
+        getContentPane().add(diem, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 332, -1, -1));
 
         background.setBackground(new java.awt.Color(102, 102, 0));
         background.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/light yellow background.png"))); // NOI18N
@@ -499,8 +502,10 @@ public class GameView extends javax.swing.JFrame {
     }//GEN-LAST:event_btnStartActionPerformed
 
     private void btnSubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitActionPerformed
+        getContentPane().add(lbWaiting, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 150, 380, -1));
         System.out.println("Game with competitor: " + competitor);
         System.out.println("Chơi xong rồi");
+        btnLeaveGame.setVisible(false);
         done = true;
         ClientRun.socketHandler.submitResult(competitor);
         // gửi dadataa dạng "SUBMIT_RESULT;" + loginUser + ";" + competitor + ";" + roomIdPresent + ";" + data

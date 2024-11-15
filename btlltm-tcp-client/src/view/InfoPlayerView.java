@@ -61,7 +61,7 @@ public class InfoPlayerView extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 48)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
         jLabel1.setText("Info user");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(116, 19, 228, 56));
 
@@ -77,7 +77,9 @@ public class InfoPlayerView extends javax.swing.JFrame {
         jLabel4.setText("Status:");
         getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 461, 75, -1));
 
+        jButton1.setBackground(new java.awt.Color(153, 0, 0));
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("OKE");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -87,17 +89,17 @@ public class InfoPlayerView extends javax.swing.JFrame {
         getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(144, 501, 131, 32));
 
         infoUserName.setEditable(false);
-        infoUserName.setBackground(new java.awt.Color(255, 255, 255));
+        infoUserName.setBackground(new java.awt.Color(255, 255, 204));
         infoUserName.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         getContentPane().add(infoUserName, new org.netbeans.lib.awtextra.AbsoluteConstraints(144, 107, 234, -1));
 
         infoUserScore.setEditable(false);
-        infoUserScore.setBackground(new java.awt.Color(255, 255, 255));
+        infoUserScore.setBackground(new java.awt.Color(255, 255, 204));
         infoUserScore.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         getContentPane().add(infoUserScore, new org.netbeans.lib.awtextra.AbsoluteConstraints(144, 162, 234, -1));
 
         infoUserStatus.setEditable(false);
-        infoUserStatus.setBackground(new java.awt.Color(255, 255, 255));
+        infoUserStatus.setBackground(new java.awt.Color(255, 255, 204));
         infoUserStatus.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         getContentPane().add(infoUserStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(144, 461, 234, -1));
 
@@ -122,27 +124,27 @@ public class InfoPlayerView extends javax.swing.JFrame {
         getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 367, 139, -1));
 
         infoUserWin.setEditable(false);
-        infoUserWin.setBackground(new java.awt.Color(255, 255, 255));
+        infoUserWin.setBackground(new java.awt.Color(255, 255, 204));
         infoUserWin.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         getContentPane().add(infoUserWin, new org.netbeans.lib.awtextra.AbsoluteConstraints(144, 211, 234, -1));
 
         infoUserDraw.setEditable(false);
-        infoUserDraw.setBackground(new java.awt.Color(255, 255, 255));
+        infoUserDraw.setBackground(new java.awt.Color(255, 255, 204));
         infoUserDraw.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         getContentPane().add(infoUserDraw, new org.netbeans.lib.awtextra.AbsoluteConstraints(144, 266, 234, -1));
 
         infoUserLose.setEditable(false);
-        infoUserLose.setBackground(new java.awt.Color(255, 255, 255));
+        infoUserLose.setBackground(new java.awt.Color(255, 255, 204));
         infoUserLose.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         getContentPane().add(infoUserLose, new org.netbeans.lib.awtextra.AbsoluteConstraints(144, 311, 234, -1));
 
         infoUserAvgCompetitor.setEditable(false);
-        infoUserAvgCompetitor.setBackground(new java.awt.Color(255, 255, 255));
+        infoUserAvgCompetitor.setBackground(new java.awt.Color(255, 255, 204));
         infoUserAvgCompetitor.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         getContentPane().add(infoUserAvgCompetitor, new org.netbeans.lib.awtextra.AbsoluteConstraints(212, 369, 166, -1));
 
         infoUserAvgTime.setEditable(false);
-        infoUserAvgTime.setBackground(new java.awt.Color(255, 255, 255));
+        infoUserAvgTime.setBackground(new java.awt.Color(255, 255, 204));
         infoUserAvgTime.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         infoUserAvgTime.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
