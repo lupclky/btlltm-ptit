@@ -461,11 +461,7 @@ public class GameView extends javax.swing.JFrame {
         jLabelHienDiem.setBackground(new java.awt.Color(255, 153, 153));
         jLabelHienDiem.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
         jLabelHienDiem.setText("Score");
-<<<<<<< Updated upstream
-        getContentPane().add(jLabelHienDiem, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 350, 56, -1));
-=======
         getContentPane().add(jLabelHienDiem, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 340, 56, -1));
->>>>>>> Stashed changes
 
         jTextField1.setBorder(new javax.swing.border.MatteBorder(null));
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
@@ -484,16 +480,6 @@ public class GameView extends javax.swing.JFrame {
         diem.setForeground(new java.awt.Color(102, 0, 0));
         diem.setText("jLabel1");
         getContentPane().add(diem, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 332, -1, -1));
-
-        lblRound.setFont(new java.awt.Font("Segoe UI", 1, 22)); // NOI18N
-        lblRound.setForeground(new java.awt.Color(0, 102, 0));
-        lblRound.setText("ROUND ");
-        getContentPane().add(lblRound, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 40, -1, -1));
-
-        diem.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
-        diem.setForeground(new java.awt.Color(102, 0, 0));
-        diem.setText("jLabel1");
-        getContentPane().add(diem, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 350, -1, -1));
 
         background.setBackground(new java.awt.Color(102, 102, 0));
         background.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/light yellow background.png"))); // NOI18N

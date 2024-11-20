@@ -476,16 +476,6 @@ private void onReceiveSubmitResult(String received) throws SQLException {
         if(joinedRoom.getResultClient1() == null || joinedRoom.getResultClient2() == null){
             while (joinedRoom.getResultClient1() == null || joinedRoom.getResultClient2() == null) {
 //            System.out.println(joinedRoom.getTime());
-<<<<<<< Updated upstream
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } 
-        
-        String data = "RESULT_GAME;success;" + joinedRoom.handleResultClient() 
-=======
                 try {
                     Thread.sleep(2000);
                 } catch (InterruptedException ex) {
@@ -495,7 +485,6 @@ private void onReceiveSubmitResult(String received) throws SQLException {
         }
         else{
             String data = "RESULT_GAME;success;" + joinedRoom.handleResultClient() 
->>>>>>> Stashed changes
                 + ";" + joinedRoom.getClient1().getLoginUser() + ";" + joinedRoom.getScoreUser1() + ";" + joinedRoom.getClient2().getLoginUser() + ";" + joinedRoom.getScoreUser2() + ";" + joinedRoom.getId();
 //        System.out.println(data);
             joinedRoom.broadcast(data);
