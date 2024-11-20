@@ -34,9 +34,9 @@ public class UserController {
     
     private final String UPDATE_GAME = "INSERT INTO games (host, guest, scoreHost, scoreGuest, status, timePlay) VALUES ( ?, ?, ?, ?, ?, ?);"; // cập nhật vào bảng games
 
-    private final String GET_RANK_LIST = "SELECT username, score, win, draw, lose from btlltm.users ORDER  BY score DESC, win DESC, draw DESC, lose DESC;";
+    private final String GET_RANK_LIST = "SELECT username, score, win, draw, lose from users ORDER  BY score DESC, win DESC, draw DESC, lose DESC;";
 
-    private final String GET_HISTORY_LIST = "SELECT guest, scoreHost, scoreGuest, status, timePlay from btlltm.games WHERE host = ?";
+    private final String GET_HISTORY_LIST = "SELECT guest, scoreHost, scoreGuest, status, timePlay from games WHERE host = ?";
 
 
 //  Instance

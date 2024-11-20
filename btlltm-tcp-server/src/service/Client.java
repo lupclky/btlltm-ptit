@@ -473,8 +473,10 @@ private void onReceiveSubmitResult(String received) throws SQLException {
         }
         
 //        while (!joinedRoom.getTime().equals("00:00") && joinedRoom.getTime() != null) {
-        while (joinedRoom.getResultClient1() == null || joinedRoom.getResultClient2() == null) {
+        if(joinedRoom.getResultClient1() == null || joinedRoom.getResultClient2() == null){
+            while (joinedRoom.getResultClient1() == null || joinedRoom.getResultClient2() == null) {
 //            System.out.println(joinedRoom.getTime());
+<<<<<<< Updated upstream
             try {
                 Thread.sleep(2000);
             } catch (InterruptedException ex) {
@@ -483,9 +485,21 @@ private void onReceiveSubmitResult(String received) throws SQLException {
         } 
         
         String data = "RESULT_GAME;success;" + joinedRoom.handleResultClient() 
+=======
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } 
+        }
+        else{
+            String data = "RESULT_GAME;success;" + joinedRoom.handleResultClient() 
+>>>>>>> Stashed changes
                 + ";" + joinedRoom.getClient1().getLoginUser() + ";" + joinedRoom.getScoreUser1() + ";" + joinedRoom.getClient2().getLoginUser() + ";" + joinedRoom.getScoreUser2() + ";" + joinedRoom.getId();
 //        System.out.println(data);
-        joinedRoom.broadcast(data);
+            joinedRoom.broadcast(data);
+        }
     }
     private void resetGame() {
         this.score = 0; // Reset điểm

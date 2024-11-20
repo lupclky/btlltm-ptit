@@ -22,6 +22,7 @@ public class ResultView extends javax.swing.JFrame {
         lblState.setText(state);
         if(state.endsWith("WIN.")){
             lblState.setForeground(new java.awt.Color(0, 153, 51));
+<<<<<<< Updated upstream
         }
         else if(state.startsWith("DRAW")){
             lblState.setForeground(new java.awt.Color(102, 102, 0));
@@ -29,6 +30,20 @@ public class ResultView extends javax.swing.JFrame {
         }
         else{
             lblState.setForeground(new java.awt.Color(255, 0, 0));
+=======
+            this.scoreHost.setForeground(new java.awt.Color(0, 153, 51));
+            this.scoreCompetitor.setForeground(new java.awt.Color(255, 0, 0));
+        }
+        else if(state.startsWith("DRAW")){
+            lblState.setForeground(new java.awt.Color(102, 102, 0));
+            this.scoreHost.setForeground(new java.awt.Color(102, 102, 0));
+            this.scoreCompetitor.setForeground(new java.awt.Color(102, 102, 0));
+        }
+        else{
+            lblState.setForeground(new java.awt.Color(255, 0, 0));
+            this.scoreHost.setForeground(new java.awt.Color(255, 0, 0));
+            this.scoreCompetitor.setForeground(new java.awt.Color(0, 153, 51));
+>>>>>>> Stashed changes
         }
         lblWishWord.setText(wish);
         this.scoreHost.setText(scoreHost);
@@ -79,6 +94,7 @@ public class ResultView extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
         jLabel2.setText("Your Score");
+<<<<<<< Updated upstream
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 150, -1, -1));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
@@ -92,6 +108,21 @@ public class ResultView extends javax.swing.JFrame {
         scoreCompetitor.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         scoreCompetitor.setText("Score2");
         getContentPane().add(scoreCompetitor, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 200, -1, -1));
+=======
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 147, -1, -1));
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        jLabel3.setText("Competitor's Score");
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 197, -1, -1));
+
+        scoreHost.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        scoreHost.setText("Score1");
+        getContentPane().add(scoreHost, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 140, -1, -1));
+
+        scoreCompetitor.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        scoreCompetitor.setText("Score2");
+        getContentPane().add(scoreCompetitor, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 190, -1, -1));
+>>>>>>> Stashed changes
 
         lblUsername.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
         lblUsername.setForeground(new java.awt.Color(0, 51, 51));

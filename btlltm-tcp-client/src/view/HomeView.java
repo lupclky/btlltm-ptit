@@ -81,6 +81,7 @@ public class HomeView extends javax.swing.JFrame {
         btnGetInfo = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         btnExit = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         background = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -93,7 +94,7 @@ public class HomeView extends javax.swing.JFrame {
                 btnPlayActionPerformed(evt);
             }
         });
-        getContentPane().add(btnPlay, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 410, 71, 36));
+        getContentPane().add(btnPlay, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 290, 71, 36));
 
         btnMessage.setFont(new java.awt.Font("Comic Sans MS", 0, 16)); // NOI18N
         btnMessage.setText("Message");
@@ -102,7 +103,7 @@ public class HomeView extends javax.swing.JFrame {
                 btnMessageActionPerformed(evt);
             }
         });
-        getContentPane().add(btnMessage, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 410, -1, 36));
+        getContentPane().add(btnMessage, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 130, -1, 36));
 
         btnBXH.setFont(new java.awt.Font("Comic Sans MS", 0, 16)); // NOI18N
         btnBXH.setText("BXH");
@@ -111,7 +112,7 @@ public class HomeView extends javax.swing.JFrame {
                 btnBXHActionPerformed(evt);
             }
         });
-        getContentPane().add(btnBXH, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 450, 70, 36));
+        getContentPane().add(btnBXH, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, 70, 36));
 
         btnHistory.setFont(new java.awt.Font("Comic Sans MS", 0, 16)); // NOI18N
         btnHistory.setText("History");
@@ -120,7 +121,7 @@ public class HomeView extends javax.swing.JFrame {
                 btnHistoryActionPerformed(evt);
             }
         });
-        getContentPane().add(btnHistory, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 450, -1, 36));
+        getContentPane().add(btnHistory, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 170, -1, 36));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -159,7 +160,7 @@ public class HomeView extends javax.swing.JFrame {
         tblUser.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane2.setViewportView(tblUser);
 
-        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 100, 649, 295));
+        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 90, 250, 295));
 
         btnRefresh.setFont(new java.awt.Font("Comic Sans MS", 0, 16)); // NOI18N
         btnRefresh.setText("Refresh");
@@ -168,7 +169,7 @@ public class HomeView extends javax.swing.JFrame {
                 btnRefreshActionPerformed(evt);
             }
         });
-        getContentPane().add(btnRefresh, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 430, 100, 36));
+        getContentPane().add(btnRefresh, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 400, 100, 36));
 
         infoUserScore.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         infoUserScore.setForeground(new java.awt.Color(255, 255, 255));
@@ -178,14 +179,14 @@ public class HomeView extends javax.swing.JFrame {
 
         btnLogout.setBackground(new java.awt.Color(153, 0, 0));
         btnLogout.setFont(new java.awt.Font("Comic Sans MS", 0, 16)); // NOI18N
-        btnLogout.setForeground(new java.awt.Color(204, 255, 255));
+        btnLogout.setForeground(new java.awt.Color(255, 255, 255));
         btnLogout.setText("Logout");
         btnLogout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLogoutActionPerformed(evt);
             }
         });
-        getContentPane().add(btnLogout, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 430, 88, 36));
+        getContentPane().add(btnLogout, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 110, 88, 36));
 
         btnGetInfo.setFont(new java.awt.Font("Comic Sans MS", 0, 16)); // NOI18N
         btnGetInfo.setText("Info");
@@ -194,14 +195,18 @@ public class HomeView extends javax.swing.JFrame {
                 btnGetInfoActionPerformed(evt);
             }
         });
-        getContentPane().add(btnGetInfo, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 410, -1, 36));
+        getContentPane().add(btnGetInfo, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 210, -1, 36));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/avatar.png"))); // NOI18N
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, 60, 60));
 
         btnExit.setBackground(new java.awt.Color(153, 0, 0));
         btnExit.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+<<<<<<< Updated upstream
         btnExit.setForeground(new java.awt.Color(204, 255, 255));
+=======
+        btnExit.setForeground(new java.awt.Color(255, 255, 255));
+>>>>>>> Stashed changes
         btnExit.setText("EXIT");
         btnExit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -210,9 +215,17 @@ public class HomeView extends javax.swing.JFrame {
         });
         getContentPane().add(btnExit, new org.netbeans.lib.awtextra.AbsoluteConstraints(606, 35, 79, 34));
 
+        jButton1.setText("Your Info");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 163, 90, 40));
+
         background.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/images.png"))); // NOI18N
         background.setText("jLabel2");
-        getContentPane().add(background, new org.netbeans.lib.awtextra.AbsoluteConstraints(-3, -4, 730, 510));
+        getContentPane().add(background, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 730, 510));
 
         pack();
         setLocationRelativeTo(null);
@@ -296,6 +309,10 @@ public class HomeView extends javax.swing.JFrame {
         // TODO add your handling code here:
         ClientRun.socketHandler.getHistoryList();
     }//GEN-LAST:event_btnHistoryActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        ClientRun.socketHandler.getInfoUser(ClientRun.socketHandler.getLoginUser());
+    }//GEN-LAST:event_jButton1ActionPerformed
    
     /**
      * @param args the command line arguments
@@ -314,6 +331,7 @@ public class HomeView extends javax.swing.JFrame {
     private javax.swing.JButton btnRefresh;
     private javax.swing.JLabel infoUserScore;
     private javax.swing.JLabel infoUsername;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane2;

@@ -693,11 +693,19 @@ public class SocketHandler {
                 System.out.println("loginUsser + " + loginUser);
                 ClientRun.gameView.showAskPlayAgain("You WIN. Congratulation ");
                 ClientRun.openScene(ClientRun.SceneName.RESULTVIEW);
+<<<<<<< Updated upstream
                 ClientRun.resultView.showResult(loginUser, "YOU WIN.", "Congratulation!!", scoreUser1, scoreUser2);
             } else {
                 ClientRun.gameView.showAskPlayAgain("You LOSE. Maybe next time ");
                 ClientRun.openScene(ClientRun.SceneName.RESULTVIEW);
                 ClientRun.resultView.showResult(loginUser, "YOU LOSE.", "Try next time.", scoreUser1, scoreUser2);
+=======
+                ClientRun.resultView.showResult(loginUser, "YOU WIN.", "Congratulation!!", scoreUser2, scoreUser1);
+            } else {
+                ClientRun.gameView.showAskPlayAgain("You LOSE. Maybe next time ");
+                ClientRun.openScene(ClientRun.SceneName.RESULTVIEW);
+                ClientRun.resultView.showResult(user2, "YOU LOSE.", "Try next time.", scoreUser1,scoreUser2);
+>>>>>>> Stashed changes
             }
         }
     }
