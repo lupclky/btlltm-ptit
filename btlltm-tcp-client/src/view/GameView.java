@@ -621,8 +621,7 @@ public class GameView extends javax.swing.JFrame {
         jTextField1.setText("" + currentRound);
         System.out.println("currentRound" + currentRound);
         if (currentRound > 3) {
-            JOptionPane.showMessageDialog(this, "Bạn đã hoàn thành 3 vòng!\nĐiểm của bạn là: " + score, 
-                    "Điểm số", JOptionPane.INFORMATION_MESSAGE);
+            lblRound.setVisible(false);
 //            cup1.
 //            currentRound = 1; // Reset lại vòng chơi
 //            score = 0; // Reset điểm số

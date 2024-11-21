@@ -101,7 +101,7 @@ public class ResultView extends javax.swing.JFrame {
         lblUsername.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
         lblUsername.setForeground(new java.awt.Color(0, 51, 51));
         lblUsername.setText("jLabel1");
-        getContentPane().add(lblUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 110, -1, -1));
+        getContentPane().add(lblUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 100, -1, -1));
 
         background.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/light-red-background 1 (1).jpg"))); // NOI18N
         getContentPane().add(background, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 350, 350));

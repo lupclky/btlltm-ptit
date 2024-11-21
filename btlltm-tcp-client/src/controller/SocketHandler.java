@@ -341,7 +341,6 @@ public class SocketHandler {
         if (status.equals("success")) {
             int userCount = Integer.parseInt(splitted[2]);
 
-            // https://niithanoi.edu.vn/huong-dan-thao-tac-voi-jtable-lap-trinh-java-swing.html
             Vector vheader = new Vector();
             vheader.add("User");
 
@@ -684,23 +683,37 @@ public class SocketHandler {
         String roomId = splitted[7];
         
         if (status.equals("success")) {
-            ClientRun.gameView.setWaitingRoom();
-            if (result.equals("DRAW")) {
-                ClientRun.gameView.showAskPlayAgain("The game is DRAW. ");
-                ClientRun.openScene(ClientRun.SceneName.RESULTVIEW);
-                ClientRun.resultView.showResult(user1, "DRAW GAME.", "It's a good game", scoreUser1, scoreUser2);
-            } else if (result.equals(loginUser)) {
-                System.out.println("loginUsser + " + loginUser);
-                ClientRun.gameView.showAskPlayAgain("You WIN. Congratulation ");
-                ClientRun.openScene(ClientRun.SceneName.RESULTVIEW);
-                ClientRun.resultView.showResult(loginUser, "YOU WIN.", "Congratulation!!", scoreUser2, scoreUser1);
-            } else {
-                ClientRun.gameView.showAskPlayAgain("You LOSE. Maybe next time ");
-                ClientRun.openScene(ClientRun.SceneName.RESULTVIEW);
-                ClientRun.resultView.showResult(user2, "YOU LOSE.", "Try next time.", scoreUser1,scoreUser2);
-            }
+        ClientRun.gameView.setWaitingRoom();
+
+        // Tạo hai biến để lưu điểm số theo thứ tự
+        String firstScore, secondScore;
+        firstScore = scoreUser1; // Giữ nguyên thứ tự trong trường hợp hòa
+        secondScore = scoreUser2;
+       if (firstScore.compareTo(secondScore)<0) {
+            String temp = firstScore;
+            firstScore = secondScore;
+            secondScore = temp;
+        }
+
+        if (result.equals("DRAW")) {
+            
+            ClientRun.gameView.showAskPlayAgain("The game is DRAW.");
+            ClientRun.openScene(ClientRun.SceneName.RESULTVIEW);
+            ClientRun.resultView.showResult(result, "DRAW GAME.", "It's a good game", firstScore, secondScore);
+        } else if (result.equals(loginUser)) { // Người chơi thắng
+            String ResultWin = result + " WINNER";
+            ClientRun.gameView.showAskPlayAgain("You WIN. Congratulations!");
+            ClientRun.openScene(ClientRun.SceneName.RESULTVIEW);
+            ClientRun.resultView.showResult(ResultWin, "YOU WIN.", "Congratulations!!", firstScore, secondScore);
+        } else { // Người chơi thua
+             // Điểm của người thua (loginUser)
+            ClientRun.gameView.showAskPlayAgain("You LOSE. Maybe next time.");
+            ClientRun.openScene(ClientRun.SceneName.RESULTVIEW);
+            String resultWin = result + " WINNER";
+            ClientRun.resultView.showResult(resultWin, "YOU LOSE.", "Try next time.", secondScore, firstScore);
         }
     }
+}
     
 //    private void onReceiveAskPlayAgain(String received) {
 //        // get status from data
